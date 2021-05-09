@@ -1,10 +1,17 @@
-#navbar1{
+/* #navbar1{
   height: 9%;
   font-size: 22px;
 }
   
+   */
+
+   #LogoChico{
+     flex-direction: row;
+     margin: 58px 28px;
+     padding: 0;
+   }
   
-  
+ /* ---------------------------------PEDIDO------------------------------------   */
   #searchBar1{
       margin: 5% 0;
   }
@@ -34,4 +41,22 @@
 }
 #itemname{
   width: 205px;
+}
+
+
+
+/* ------------------------------------Devolución------------------------------------*/
+#devolver1{
+  margin-top: 5%;
+}
+#logodevolver{
+  width:   70%;
+  text-align: center;
+  margin-bottom: 5%;
+}
+#text1{
+  margin-top: 5%;
+}
+#DevolButton{
+ float: bottom;
 }
