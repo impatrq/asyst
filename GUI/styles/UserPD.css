@@ -1,17 +1,16 @@
-.navbar .navbar-brand {
+  #searchBar1{
+      margin: 5% 0;
+  }
+  .vertical{
+    margin-left: 9% ;
+    padding-left: .5%;
+   background-color: gainsboro;
+}
+
+
+
+
+#titlePanel1{
     text-align: center;
-    display: block;
-    width: 100%;
-  }
-  
-  .navbar .navbar-brand > .navbar-item,
-  .navbar .navbar-brand .navbar-link {
-    display: inline-block;
-  }
-
-  #changeuser{
-      float: left;
-      position:static;
-      /* padding: .5em; */
-  }
-
+    /* align-items: center; */
+}
