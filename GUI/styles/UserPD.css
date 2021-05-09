@@ -1,3 +1,10 @@
+#navbar1{
+  height: 9%;
+  font-size: 22px;
+}
+  
+  
+  
   #searchBar1{
       margin: 5% 0;
   }
@@ -13,4 +20,18 @@
 #titlePanel1{
     text-align: center;
     /* align-items: center; */
+}
+
+
+#Aceptbutton{
+  margin-top: 3%;
+  width: 90;
+}
+
+#itemnum{
+  width: 52px;
+  align-items: right;
+}
+#itemname{
+  width: 205px;
 }
