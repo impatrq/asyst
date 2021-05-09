@@ -1,0 +1,16 @@
+#logo1{
+    margin: auto;
+    display: block;
+    padding: 2% 0 8% 0;
+}
+
+#col1{
+    align-items: center ;
+    text-align: center;
+}
+#input-login{
+    padding: 0 5% 0 5%;
+}
+#button-box-1{
+    padding-bottom: 5%;
+}
