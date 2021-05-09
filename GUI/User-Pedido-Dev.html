@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <!-- Comentario con ctrl+K ctrl+C -->
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,112 +14,169 @@
 </head>
 
 <body class="has-navbar-fixed-top">
-    
-    <nav class="navbar is-transparent is-fixed-top">
-        <div class="container is-fluid ">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="login.html">
-            <i class="fas fa-users"></i>    
-          </a>
-          <div class="vertical"></div>
-              <a class="navbar-item" href="" id="itemA1">
-                <strong>Pedido</strong>     
-              </a>
-                <a class="navbar-item" href="" id="itemA2">
-                  Devolución
-                </a>
-        </div>
+
+  <nav class="navbar is-transparent is-fixed-top" id="navbar1">
+    <div class="container is-fluid ">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="login.html">
+          <i class="fas fa-users is-large"></i>
+        </a>
+        <div class="vertical"></div>
+        <a class="navbar-item" href="" id="itemA1">
+          <strong>Pedido</strong>
+        </a>
+        <a class="navbar-item" href="" id="itemA2">
+          Devolución
+        </a>
       </div>
-      </nav>
-        <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
+    </div>
+  </nav>
+  <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
 
-      
-      
-    <div class="columns">
-        <div class="column is-offset-1 is-10">
-            <div class="control has-icons-left" id="searchBar1">
-                <input class="input is-rounded" type="search" placeholder="Buscar">
-                <span class="icon is-large is-left">
-                <i class="fas fa-search"></i>
+
+
+  <div class="columns">
+    <div class="column is-offset-1 is-10">
+      <div class="control has-icons-left" id="searchBar1">
+        <input class="input is-rounded" type="search" placeholder="Buscar">
+        <span class="icon is-large is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-offset-1 is-5">
+
+      <div class="card">
+        <article class="panel">
+          <p class="panel-heading" id="titlePanel1">Busqueda</p>
+
+          <p class="panel-tabs">
+            <a class="is-active">Todos</a>
+            <a>Herramientas</a>
+            <a>Insumos</a>
+          </p>
+
+          <a class="panel-block">
+            <span class="panel-icon">
+              <i class="fas fa-tools" aria-hidden="true"></i>
+            </span>
+            Martillo
+          </a>
+
+          <a class="panel-block">
+            <span class="panel-icon">
+              <i class="fas fa-tools" aria-hidden="true"></i>
+            </span>
+            Llave de tubo 1/2"
+          </a>
+          <a class="panel-block">
+            <span class="panel-icon">
+              <i class="fas fa-toolbox" aria-hidden="true"></i>
+            </span>
+            Bulones de 12
+          </a>
+          <a class="panel-block">
+            <span class="panel-icon">
+              <i class="fas fa-tools" aria-hidden="true"></i>
+            </span>
+            Remachadora
+          </a>
+        </article>
+
+      </div>
+    </div>
+    <div class="column is-5">
+      <div class="card">
+        <article class="panel">
+          <p class="panel-heading" id="titlePanel1">Petición</p>
+
+          <div class="panel-block">
+            <div class="columns">
+              <div class="column is-1">
+                <span class="panel-icon">
+                  <i class="fas fa-toolbox" aria-hidden="true"></i>
                 </span>
-        </div>
-    </div>
-    </div>
-    <div class="columns">
-        <div class="column is-offset-1 is-5">
-            
-        <div class="card">
-            <article class="panel">
-                <p class="panel-heading" id="titlePanel1">Busqueda</p>
-
-                <p class="panel-tabs">
-                  <a class="is-active">Todos</a>
-                  <a>Herramientas</a>
-                  <a>Insumos</a>
-                </p>
-
-                <a class="panel-block">
-                  <span class="panel-icon">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
-                  </span>
-                  Martillo
-                </a>
-                
-                <a class="panel-block">
-                  <span class="panel-icon">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
-                  </span>
-                  Llave de tubo 1/2"
-                </a>
-                <a class="panel-block">
-                  <span class="panel-icon">
-                    <i class="fas fa-toolbox" aria-hidden="true"></i>
-                  </span>
-                  Bulones de 12
-                </a>
-                <a class="panel-block">
-                  <span class="panel-icon">
-                    <i class="fas fa-tools" aria-hidden="true"></i>
-                  </span>
-                  Remachadora
-                </a>
-              </article>
-
+              </div>
+              <div class="column is-8" id="itemname">
+                <div class="control">
+                  Flap ES1-572 </div>
+              </div>
+              <div class="column is-3 is-offset-half-widescreen">
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
+                  </div>
+                  <div class="control">
+                    <a class="button is-warning is-small">X</a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-        <div class="column is-5">
-            <div class="card">
-                <article class="panel">
-                    <p class="panel-heading" id="titlePanel1">Petición</p>
+          </div>
+
+          <div class="panel-block">
+            <div class="columns">
+              <div class="column is-1">
+                <span class="panel-icon">
+                  <i class="fas fa-toolbox" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="column is-8"  id="itemname">
+                <div class="control">
+                  Alambre acero </div>
+              </div>
+              <div class="column is-3 is-offset-half-widescreen">
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
+                  </div>
+                  <div class="control">
+                    <a class="button is-warning is-small">X</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <div class="columns">
+              <div class="column is-1">
+                <span class="panel-icon">
+                  <i class="fas fa-toolbox" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="column is-8"id="itemname">
+                <div class="control">
+                  123456789012345678901234567890  </div>
+              </div>
+              <div class="column is-3 is-offset-half-widescreen">
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
+                  </div>
+                  <div class="control">
+                    <a class="button is-warning is-small">X</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-offset-one-quarter is-half">
+      <button class="button is-success is-large is-fullwidth" id="Aceptbutton">Hacer Pedido</button>
+    </div>
+  </div>
     
-                    <a class="panel-block">
-                      <span class="panel-icon">
-                        <i class="fas fa-tools" aria-hidden="true"></i>
-                      </span>
-                      Destornillador
-                    </a>
-                    
-                    <a class="panel-block">
-                      <span class="panel-icon">
-                        <i class="fas fa-toolbox" aria-hidden="true"></i>
-                      </span>
-                      Flap ES-914-R
-                    </a>
-                    <a class="panel-block">
-                      <span class="panel-icon">
-                        <i class="fas fa-toolbox" aria-hidden="true"></i>
-                      </span>
-                      tornillo phillip 2"
-                    </a>
-                    <a class="panel-block">
-                      <span class="panel-icon">
-                        <i class="fas fa-toolbox" aria-hidden="true"></i>
-                      </span>
-                      aceite de motor wd-90
-                    </a>
-                  </article>
-            </div>
-        </div>
-    </div>
+
+
+
+
 </body>
+
 </html>
