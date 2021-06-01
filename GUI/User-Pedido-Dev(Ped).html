@@ -31,9 +31,9 @@
       </div>
       </div>
       <div class="navbar-end">
-        <div class="navbar-item is-hoverable">
+        <!-- <div class="navbar-item is-hoverable">
         <img src="resources/Logo-Short.png" alt="LogoChico" id="LogoChico">
-        </div>
+        </div> -->
     </div>
   </nav>
   <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
@@ -43,18 +43,19 @@
   <div class="columns">
     <div class="column is-offset-1 is-10">
       <div class="control has-icons-left" id="searchBar1">
-        <input class="input is-rounded" type="search" placeholder="Buscar">
+        <input class="input is-rounded" type="text" placeholder="Buscar">
         <span class="icon is-large is-left">
           <i class="fas fa-search"></i>
         </span>
       </div>
     </div>
   </div>
+  <!-- -----------------------------------Lista de herramientas------------------------------------ -->
   <div class="columns">
     <div class="column is-offset-1 is-5">
 
       <div class="card">
-        <article class="panel">
+        <article class="panel" >
           <p class="panel-heading" id="titlePanel1">Busqueda</p>
 
           <p class="panel-tabs">
@@ -62,116 +63,24 @@
             <a>Herramientas</a>
             <a>Insumos</a>
           </p>
-
-          <a class="panel-block">
-            <span class="panel-icon">
-              <i class="fas fa-tools" aria-hidden="true"></i>
-            </span>
-            Martillo
-          </a>
-
-          <a class="panel-block">
-            <span class="panel-icon">
-              <i class="fas fa-tools" aria-hidden="true"></i>
-            </span>
-            Llave de tubo 1/2"
-          </a>
-          <a class="panel-block">
-            <span class="panel-icon">
-              <i class="fas fa-toolbox" aria-hidden="true"></i>
-            </span>
-            Bulones de 12
-          </a>
-          <a class="panel-block">
-            <span class="panel-icon">
-              <i class="fas fa-tools" aria-hidden="true"></i>
-            </span>
-            Remachadora
-          </a>
+          <div id="panel-busqueda"></div>
         </article>
+
 
       </div>
     </div>
     <div class="column is-5">
       <div class="card">
         <article class="panel">
-          <p class="panel-heading" id="titlePanel1">Petición</p>
+          <p class="panel-heading" id="titlePanel2">Petición</p>
+          <div id='panel-pedido'>
 
-          <div class="panel-block">
-            <div class="columns">
-              <div class="column is-1">
-                <span class="panel-icon">
-                  <i class="fas fa-toolbox" aria-hidden="true"></i>
-                </span>
-              </div>
-              <div class="column is-8" id="itemname">
-                <div class="control">
-                  Flap ES1-572 </div>
-              </div>
-              <div class="column is-3 is-offset-half-widescreen is-">
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
-                  </div>
-                  <div class="control">
-                    <a class="button is-warning is-small">X</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel-block">
-            <div class="columns">
-              <div class="column is-1">
-                <span class="panel-icon">
-                  <i class="fas fa-toolbox" aria-hidden="true"></i>
-                </span>
-              </div>
-              <div class="column is-8"  id="itemname">
-                <div class="control">
-                  Alambre acero </div>
-              </div>
-              <div class="column is-3 is-offset-half-widescreen">
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
-                  </div>
-                  <div class="control">
-                    <a class="button is-warning is-small">X</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="panel-block">
-            <div class="columns">
-              <div class="column is-1">
-                <span class="panel-icon">
-                  <i class="fas fa-toolbox" aria-hidden="true"></i>
-                </span>
-              </div>
-              <div class="column is-8"id="itemname">
-                <div class="control">
-                  123456789012345678901234567890  </div>
-              </div>
-              <div class="column is-3 is-offset-half-widescreen">
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input is-small" type="number" placeholder="N" id="itemnum">
-                  </div>
-                  <div class="control">
-                    <a class="button is-warning is-small">X</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
+          </div>           
+        </div>
+      </article>
     </div>
-  </div>
+   </div>
+</div>
   <div class="columns">
     <div class="column is-offset-one-quarter is-half">
       <button class="button is-success is-large is-fullwidth" id="Aceptbutton">Hacer Pedido</button>
@@ -179,9 +88,47 @@
   </div>
     
 
+   <!-- template de item de lista de busqueda ------------------------------------------------------- -->
+   <template id="bloque-lista-buscar">
+    <a class="panel-block">
+      <span class="panel-icon">
+        <i class="fas" aria-hidden="true"></i>
+      </span>
+      <p class="nombre-herr">Llave de tubo 1/2"</p>
+    </a>  
+  </template>
+  <!-- template de item de lista de pedido -------------------------------------------------------- -->
+  <template id="bloque-lista-pedido">
+    <div class="panel-block"> 
+      <span class="panel-icon">
+        <i class="fas fa-question-circle" aria-hidden="true"></i>
+      </span>
+      <span class="texto-ped-item">Hola</span>
+      <span class="input-item">
+        <div class="field has-addons">
+          <ul>
+            <li><a class="button is-primary is-small suma">+</a></li>
+            <li><a class="button is-danger is-small resta">-</a></li>
+            </ul>
+          <div class="control">
+            <input class="input is-small itemnum" type="text" placeholder="N" readonly="true">
+          </div>
+          <div class="control">
+            <a class="button is-warning is-small eliminar">X</a>
+          </div></div>
+      </span>
+  </template>
+<template id="bloque-pedido-vacio">
+  <div class="panel-block vacio"> <!-- Template Vacio------------------------------------------------------ -->
+    <span class="panel-icon">
+      <i class="fas fa-question-circle" aria-hidden="true"></i>
+    </span>
+    <span class="texto-ped-item"> <b>Lista vacia,</b> seleccione herramientas para agregarlas al pedido </span>
+    
+    </div>
+</template>
 
-
-
+<script src="scripts/pedido.js"></script>
 </body>
 
 </html>

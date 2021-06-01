@@ -10,7 +10,7 @@
     align-items: center ;
     text-align: center;
 }
-#input-login{
+.control.has-icons-left{
     margin: 0 5% 0 5%;
 }
 #button-box-1{

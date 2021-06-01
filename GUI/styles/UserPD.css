@@ -2,7 +2,7 @@
   height: 9%;
   font-size: 22px;
 }
-  
+
    */
 
    #LogoChico{
@@ -10,7 +10,7 @@
      margin: 58px 28px;
      padding: 0;
    }
-  
+
  /* ---------------------------------PEDIDO------------------------------------   */
   #searchBar1{
       margin: 5% 0;
@@ -24,7 +24,7 @@
 
 
 
-#titlePanel1{
+.panel-heading{
     text-align: center;
     /* align-items: center; */
 }
@@ -35,16 +35,27 @@
   width: 90;
 }
 
-#itemnum{
-  width: 52px;
+.itemnum{
+  width: 35px;
   align-items: right;
 }
 #itemname{
   width: 205px;
 }
 
-
-
+.tool-selected{
+  text-decoration-line:line-through;
+}
+.texto-ped-item{
+  flex: 400px;
+  margin-right:flex;
+}
+.suma{height: 15px; font-size: 100px; padding: 3px; }
+.resta{height: 15px;padding: 5px;}
+ul{margin:0; width: 10px; }
+li{margin:0 0 0 -4px; padding:-15px; border:-15px;height: 15px; width: 2px;}
+.panel-block{height: 40px;}
+.panel-block.vacio{height: auto;}
 /* ------------------------------------Devolución------------------------------------*/
 #devolver1{
   margin-top: 5%;
