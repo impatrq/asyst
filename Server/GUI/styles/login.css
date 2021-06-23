@@ -1,0 +1,18 @@
+#logo1{
+    margin: auto;
+    display: block;
+    padding: 2% 0 8% 0;
+    width: 40%;
+    height: 40%;
+}
+
+#col1{
+    align-items: center ;
+    text-align: center;
+}
+.control.has-icons-left{
+    margin: 0 5% 0 5%;
+}
+#button-box-1{
+    padding-bottom: 5%;
+}

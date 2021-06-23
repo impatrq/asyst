@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Comentario con ctrl+K ctrl+C -->
+
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.SYS.T Project</title>
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/UserPD.css' %}">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"> -->
+  <script src="https://kit.fontawesome.com/5747557d2f.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="has-navbar-fixed-top">
+
+  <nav class="navbar is-transparent is-fixed-top" id="navbar1">
+    <div class="container is-fluid ">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/user/">
+          <i class="fas fa-users is-large"></i>
+        </a>
+        <div class="vertical"></div>
+        <a class="navbar-item" href="" id="itemA1">
+          <strong>Pedido</strong>
+        </a>
+        <a class="navbar-item" href="/user/devolver/" id="itemA2">
+          Devolución
+        </a>
+      </div>
+      </div>
+      <div class="navbar-end">
+        <!-- <div class="navbar-item is-hoverable">
+        <img src="resources/Logo-Short.png" alt="LogoChico" id="LogoChico">
+        </div> -->
+    </div>
+  </nav>
+  <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
+
+
+
+  <div class="columns">
+    <div class="column is-offset-1 is-10">
+      <div class="control has-icons-left" id="searchBar1">
+        <input class="input is-rounded" type="text" placeholder="Buscar">
+        <span class="icon is-large is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- -----------------------------------Lista de herramientas------------------------------------ -->
+  <div class="columns">
+    <div class="column is-offset-1 is-5">
+
+      <div class="card">
+        <article class="panel" >
+          <p class="panel-heading" id="titlePanel1">Busqueda</p>
+
+          <p class="panel-tabs">
+            <a class="is-active">Todos</a>
+            <a>Herramientas</a>
+            <a>Insumos</a>
+          </p>
+          <div id="panel-busqueda"></div>
+        </article>
+
+
+      </div>
+    </div>
+    <div class="column is-5">
+      <div class="card">
+        <article class="panel">
+          <p class="panel-heading" id="titlePanel2">Petición</p>
+          <div id='panel-pedido'>
+
+          </div>           
+        </div>
+      </article>
+    </div>
+   </div>
+</div>
+  <div class="columns">
+    <div class="column is-offset-one-quarter is-half">
+      <button class="button is-success is-large is-fullwidth" id="Aceptbutton">Hacer Pedido</button>
+    </div>
+  </div>
+    
+
+   <!-- template de item de lista de busqueda ------------------------------------------------------- -->
+   <template id="bloque-lista-buscar">
+    <a class="panel-block">
+      <span class="panel-icon">
+        <i class="fas" aria-hidden="true"></i>
+      </span>
+      <p class="nombre-herr">Llave de tubo 1/2"</p>
+    </a>  
+  </template>
+  <!-- template de item de lista de pedido -------------------------------------------------------- -->
+  <template id="bloque-lista-pedido">
+    <div class="panel-block"> 
+      <span class="panel-icon">
+        <i class="fas fa-question-circle" aria-hidden="true"></i>
+      </span>
+      <span class="texto-ped-item">Hola</span>
+      <span class="input-item">
+        <div class="field has-addons">
+          <ul>
+            <li><a class="button is-primary is-small suma">+</a></li>
+            <li><a class="button is-danger is-small resta">-</a></li>
+            </ul>
+          <div class="control">
+            <input class="input is-small itemnum" type="text" placeholder="N" readonly="true">
+          </div>
+          <div class="control">
+            <a class="button is-warning is-small eliminar">X</a>
+          </div></div>
+      </span>
+  </template>
+<template id="bloque-pedido-vacio">
+  <div class="panel-block vacio"> <!-- Template Vacio------------------------------------------------------ -->
+    <span class="panel-icon">
+      <i class="fas fa-question-circle" aria-hidden="true"></i>
+    </span>
+    <span class="texto-ped-item"> <b>Lista vacia,</b> seleccione herramientas para agregarlas al pedido </span>
+    
+    </div>
+</template>
+
+<script src="{% static 'scripts/pedido.js' %}"></script>
+</body>
+
+</html>
