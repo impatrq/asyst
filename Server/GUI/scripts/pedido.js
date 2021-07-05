@@ -19,11 +19,11 @@ const selectorBusqueda = document.querySelector('p.panel-tabs')
 // no se como funciona esta parte del codigo, pero en resumen lee el JSON y deriva a la funcion pintarCards
 
 const fetchData = async () => {
-    const res = await fetch('{% static "scripts/ejemploBase.json" %}');
+    const res = await fetch('/user/getstock');
     data = await res.json()
     dataFiltrada = data
     data.forEach(item =>{item.selected = false})
-  //  console.log(data)
+    console.log(data)
     pintarCards(data)
 }
 // panelBusqueda.addEventListener('click', e =>{
@@ -33,13 +33,13 @@ const fetchData = async () => {
 const pintarCards = data => {
     panelBusqueda.innerHTML = ""
     data.forEach(item => {
-        templateCard.querySelector('p').textContent = item.title
+        templateCard.querySelector('p').textContent = item.nombre
         templateCard.querySelector('a.panel-block').dataset.id = item.id
         templateCard.querySelector('i').classList.remove('fa-toolbox'); 
         templateCard.querySelector('i').classList.remove('fa-tools'); 
         templateCard.querySelector('i').classList.remove('fa-question-circle'); 
-        if      (item.class == 1){templateCard.querySelector('i').classList.add('fa-toolbox');         }
-        else if (item.class == 2){templateCard.querySelector('i').classList.add('fa-tools');           }  
+        if      (item.clase == 1){templateCard.querySelector('i').classList.add('fa-toolbox');         }
+        else if (item.clase == 2){templateCard.querySelector('i').classList.add('fa-tools');           }  
         else {                    templateCard.querySelector('i').classList.add('fa-question-circle'); }
         if(item.selected){templateCard.querySelector('a.panel-block').classList.add('tool-selected')}
         else{templateCard.querySelector('a.panel-block').classList.remove('tool-selected')}
@@ -75,8 +75,8 @@ const setPeticion = objeto =>{
     // console.log(objeto)
     let herramienta = {
         id: parseInt(objeto.dataset.id),
-        title: objeto.querySelector('.nombre-herr').textContent,
-        class: objeto.querySelector('i.fas').classList[1],
+        nombre: objeto.querySelector('.nombre-herr').textContent,
+        clase: objeto.querySelector('i.fas').classList[1],
         cantidad: 1
     }
    // console.log(herramienta)
@@ -89,9 +89,9 @@ const pintarPedido = ()=>{
     panelPedido.innerHTML =""
     // console.log(peticion)
     Object.values(peticion).forEach(herramienta =>{
-        templatePed.querySelector('.texto-ped-item').textContent = herramienta.title
+        templatePed.querySelector('.texto-ped-item').textContent = herramienta.nombre
         templatePed.querySelector('i.fas').classList.remove('fa-tools','fa-toolbox','fa-question-circle')
-        templatePed.querySelector('i.fas').classList.add(herramienta.class)
+        templatePed.querySelector('i.fas').classList.add(herramienta.clase)
         templatePed.querySelector('.itemnum').value = herramienta.cantidad
         templatePed.querySelector('.panel-block').dataset.id = herramienta.id
         const clone = templatePed.cloneNode(true)
@@ -148,12 +148,12 @@ const filtrar = ()=>{
     const texto = barraBusqueda.value.toLowerCase()
     // console.log('-')
     for(herramienta of data){
-        let nombre = herramienta.title.toLowerCase()
+        let nombre = herramienta.nombre.toLowerCase()
         if(nombre.indexOf(texto) !== -1){
             // console.log(nombre)
             if (filtrado == 0 ){dataFiltrada.push(herramienta)}
-            if (filtrado == 2 ){if(herramienta.class == filtrado){dataFiltrada.push(herramienta)}}
-            if (filtrado == 1 ){if(herramienta.class == filtrado){dataFiltrada.push(herramienta)}}
+            if (filtrado == 2 ){if(herramienta.clase == filtrado){dataFiltrada.push(herramienta)}}
+            if (filtrado == 1 ){if(herramienta.clase == filtrado){dataFiltrada.push(herramienta)}}
         }
         // if(!texto){pintarCards(data)}
     }
