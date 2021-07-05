@@ -1,5 +1,6 @@
-import machine, time
-from machine import Pin
+from os import stat_result
+from machine import Pin, time
+import json
 """
 1-gira mucho a la izquierda
 2-gira un poco a la izqueirda
@@ -10,7 +11,16 @@ from machine import Pin
 9-gira 90° a la derecha
 8-PERDIDO
 """
-def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
+def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG):#todo:usado
+    boton_frenado = pin_boton_frenado.value()
+    sensor_IFR = [0,0,0,0,0]
+    for i in range (5):
+        sensor_IFR[i] = pin_sensor_IFR[i].value()
+    alarma_balanza = pin_alarma_balanza.value()
+    sensor_MG = pin_sensor_MG.value()
+    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG;
+
+def corregir_rumbo(aux):#todo:usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     if   aux==[0,0,0,0,1]: return 5; #gira mucho a la derecha
     elif aux==[0,0,0,1,1]: return 5; #gira mucho a la derecha
     elif aux==[0,1,1,1,1]: return 4; #gira un poco a la derecha
@@ -111,7 +121,7 @@ class HCSR04:
         cms = (pulse_time / 2) / 29.1
         return cms
 
-def reconocimiento_sector(destino, countIman, destinoPañol, posicion_actual):#todo:usado
+def reconocimiento_sector(destino, countIman, destinoPañol, posicion_actual,server_send_dict):#todo:usado
 
     if destino == destinoPañol:
         countIman -= 1
@@ -121,24 +131,26 @@ def reconocimiento_sector(destino, countIman, destinoPañol, posicion_actual):#t
             elif    posicion_actual[countIman] == 9: auxDireccion = 7
             else:   auxDireccion = 3
             posicion_actual[countIman] = 0
-            return posicion_actual, auxDireccion, countIman, destino
-        elif posicion_actual == destino: 
+            return posicion_actual, auxDireccion, countIman, destino,server_send_dict
+        else: #posicion_actual==destino: 
             #print("Llegamos al Pañol")
+            server_send_dict['posicion_actual'] = posicion_actual #tiene que ser 0,0,0,0,0
             #Actualizar destino
-            return posicion_actual, 0, countIman, destino
+            return posicion_actual, 0, countIman, destino,server_send_dict
 
     else:
         countIman += 1
         posicion_actual[0] = countIman
         if (countIman < destino[0]) and (posicion_actual != destino):  
             posicion_actual[countIman] = destino[countIman]
-            return posicion_actual, destino[countIman], countIman, destino
-        else: 
+            return posicion_actual, destino[countIman], countIman, destino, server_send_dict
+        else: #posicion_actual == destino
+            server_send_dict['posicion_actual'] = posicion_actual #tiene que ser !!0,0,0,0,0!!
             #print("Llegamos a destino")
             destino = destinoPañol
-            return posicion_actual, 0, countIman, destino  
+            return posicion_actual, 0, countIman, destino, server_send_dict 
 
-def regular_direccion(direccion, velocidades_dict): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
+def regular_direccion(direccion, velocidades_dict): #todo:usado  /// Recordar importar las los valores de "p" como un diccionario
     if      direccion == 1: return  1,velocidades_dict['p30'], 1,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
     elif    direccion == 2: return  1,velocidades_dict['p60'], 1,velocidades_dict['p90']
     elif    direccion == 3: return 1,velocidades_dict['p100'],1,velocidades_dict['p100']
@@ -163,14 +175,7 @@ def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocid
         pin_M_L_pwm.duty(0)
         pin_M_R_pwm.duty(0)
 
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG):#todo:usado
-    boton_frenado = pin_boton_frenado.value()
-    sensor_IFR = [0,0,0,0,0]
-    for i in range (5):
-        sensor_IFR[i] = pin_sensor_IFR[i].value()
-    alarma_balanza = pin_alarma_balanza.value()
-    sensor_MG = pin_sensor_MG.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG;
+
 
 
     

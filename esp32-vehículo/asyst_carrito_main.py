@@ -1,5 +1,6 @@
 #----------------------Librerías a utilizar-----------------------
-from machine import Pin, PWM, ADC, time 
+from machine import Pin, PWM, ADC, time
+import json 
 import time
 import libs_asyst as lib
 #-----------------------Pines a utilizar---------------------------
@@ -44,6 +45,10 @@ velocidades_dict={
     'p100' : velocidad
 }
 interrupcion = 0
+server_send_dict = {
+    'posicion_actual':None,
+    'perdido':None
+}
 
 #pines = [boton_frenado,sensor_IFR, alarma_balanza, sensor_MG]
 #--------------------------------------------------------------
@@ -52,14 +57,18 @@ def main():
         boton_frenado, sensor_IFR, alarma_balanza, sensor_MG = lib.actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG)
         direccion = lib.corregir_rumbo(sensor_IFR)
         if sensor_MG:
-            posicion_actual, direccion, countIman, destino = lib.reconocimiento_sector(destino,countIman,destinoPanol,posicion_actual)
+            posicion_actual, direccion, countIman, destino,server_send_dict = lib.reconocimiento_sector(destino,countIman,destinoPanol,posicion_actual,server_send_dict)
         interrupcion = lib.frenado_emergencia(boton_frenado,sensor_US)
         interrupcion += alarma_balanza
         M_L_sentido,M_L_pwm,M_R_sentido,M_R_pwm = lib.regular_direccion(direccion,velocidades_dict)
         lib.regular_sentido_motores(pin_M_L_sentido,pin_M_R_sentido,M_L_sentido,M_R_sentido)
         lib.regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm,interrupcion,M_L_pwm,M_R_pwm)
 
-        pass
+        if direccion==8:server_send_dict['perdido'] = 1
+        else: server_send_dict['perdido'] = 0
+        server_send_final = [server_send_dict]
+        with open('ejemplo_send.json', 'w') as file: #Pregunto si está perdido
+            json.dump(server_send_final, file)
 
 main()
 
