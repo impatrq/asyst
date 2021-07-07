@@ -1,6 +1,5 @@
 Server/main/__pycache__/
 Server/main/migrations/__pycache__/
 Server/Server/__pycache__/
-Server/GUI/styles/bulma
 venv/
 docs/
