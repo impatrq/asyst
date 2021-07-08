@@ -1,45 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<!-- Comentario con ctrl+K ctrl+C -->
-
-<head>
-  {% load static %}
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A.SYS.T Project</title>
-  <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Pedir | A.SYS.T{% endblock titulo %}
+{% block css %}
   <link rel="stylesheet" href="{% static 'styles/UserPD.css' %}">
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"> -->
-  <script src="https://kit.fontawesome.com/5747557d2f.js" crossorigin="anonymous"></script>
-</head>
+{% endblock css %}
 
-<body class="has-navbar-fixed-top">
-
-  <nav class="navbar is-transparent is-fixed-top" id="navbar1">
-    <div class="container is-fluid ">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/user/">
-          <i class="fas fa-users is-large"></i>
-        </a>
-        <div class="vertical"></div>
-        <a class="navbar-item" href="" id="itemA1">
-          <strong>Pedido</strong>
-        </a>
-        <a class="navbar-item" href="/user/devolver/" id="itemA2">
-          Devolución
-        </a>
-      </div>
-      </div>
-      <div class="navbar-end">
-        <!-- <div class="navbar-item is-hoverable">
-        <img src="resources/Logo-Short.png" alt="LogoChico" id="LogoChico">
-        </div> -->
-    </div>
-  </nav>
+{% block body %}
   <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
-
-
 
   <div class="columns">
     <div class="column is-offset-1 is-10">
@@ -128,8 +95,7 @@
     
     </div>
 </template>
-
+{% endblock body %}
+{% block js %}
 <script src="{% static 'scripts/pedido.js' %}"></script>
-</body>
-
-</html>
+{% endblock js %}
