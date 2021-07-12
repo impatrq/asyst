@@ -11,14 +11,15 @@ import json
 9-gira 90° a la derecha
 8-PERDIDO
 """
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG):#todo:usado
+def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
     boton_frenado = pin_boton_frenado.value()
     sensor_IFR = [0,0,0,0,0]
     for i in range (5):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
     alarma_balanza = pin_alarma_balanza.value()
     sensor_MG = pin_sensor_MG.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG;
+    sensor_MG_2 = pin_sensor_MG_2.value()
+    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
 
 def corregir_rumbo(aux):#todo:usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     if   aux==[0,0,0,0,1]: return 5; #gira mucho a la derecha
@@ -174,8 +175,6 @@ def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocid
     else:
         pin_M_L_pwm.duty(0)
         pin_M_R_pwm.duty(0)
-
-
 
 
     
