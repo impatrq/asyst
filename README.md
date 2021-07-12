@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/impatrq/asyst">
-    <img src= "media/Logo-Short.png" alt="Logo" width="100" height="100">
+    <img src= "media/Logo-Short.png" alt="Logo" width="500" height="245">
   </a>
 
   <h3 align="center">A.SYS.T</h3>
