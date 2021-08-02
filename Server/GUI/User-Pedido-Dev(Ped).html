@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Pedir | A.SYS.T{% endblock titulo %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'styles/UserPD.css' %}">
+{% endblock css %}
+
+{% block body %}
+  <!-- -----------------ACA EMPIEZA PEDIDO--------------------------------------------------------- -->
+
+  <div class="columns">
+    <div class="column is-offset-1 is-10">
+      <div class="control has-icons-left" id="searchBar1">
+        <input class="input is-rounded" type="text" placeholder="Buscar">
+        <span class="icon is-large is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- -----------------------------------Lista de herramientas------------------------------------ -->
+  <div class="columns">
+    <div class="column is-offset-1 is-5">
+
+      <div class="card">
+        <article class="panel" >
+          <p class="panel-heading" id="titlePanel1">Busqueda</p>
+
+          <p class="panel-tabs">
+            <a class="is-active">Todos</a>
+            <a>Herramientas</a>
+            <a>Insumos</a>
+          </p>
+          <div id="panel-busqueda"></div>
+        </article>
+
+
+      </div>
+    </div>
+    <div class="column is-5">
+      <div class="card">
+        <article class="panel">
+          <p class="panel-heading" id="titlePanel2">Petición</p>
+          <div id='panel-pedido'>
+
+          </div>           
+        </div>
+      </article>
+    </div>
+   </div>
+</div>
+  <div class="columns">
+    <div class="column is-offset-one-quarter is-half">
+      <button class="button is-success is-large is-fullwidth" id="Aceptbutton">Hacer Pedido</button>
+    </div>
+  </div>
+    
+
+   <!-- template de item de lista de busqueda ------------------------------------------------------- -->
+   <template id="bloque-lista-buscar">
+    <a class="panel-block">
+      <span class="panel-icon">
+        <i class="fas" aria-hidden="true"></i>
+      </span>
+      <p class="nombre-herr">Llave de tubo 1/2"</p>
+    </a>  
+  </template>
+  <!-- template de item de lista de pedido -------------------------------------------------------- -->
+  <template id="bloque-lista-pedido">
+    <div class="panel-block"> 
+      <span class="panel-icon">
+        <i class="fas fa-question-circle" aria-hidden="true"></i>
+      </span>
+      <span class="texto-ped-item">Hola</span>
+      <span class="input-item">
+        <div class="field has-addons">
+          <ul>
+            <li><a class="button is-primary is-small suma">+</a></li>
+            <li><a class="button is-danger is-small resta">-</a></li>
+            </ul>
+          <div class="control">
+            <input class="input is-small itemnum" type="text" placeholder="N" readonly="true">
+          </div>
+          <div class="control">
+            <a class="button is-warning is-small eliminar">X</a>
+          </div></div>
+      </span>
+  </template>
+<template id="bloque-pedido-vacio">
+  <div class="panel-block vacio"> <!-- Template Vacio------------------------------------------------------ -->
+    <span class="panel-icon">
+      <i class="fas fa-question-circle" aria-hidden="true"></i>
+    </span>
+    <span class="texto-ped-item"> <b>Lista vacia,</b> seleccione herramientas para agregarlas al pedido </span>
+    
+    </div>
+</template>
+{% endblock body %}
+{% block js %}
+<script src="{% static 'scripts/pedido.js' %}"></script>
+{% endblock js %}

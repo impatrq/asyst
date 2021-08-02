@@ -19,6 +19,16 @@ class URL:
         self.send = 'http://127.0.0.1:8000'
         self.carrito_json = 'prueba_read.json'
 
+def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
+    boton_frenado = pin_boton_frenado.value()
+    sensor_IFR = [0,0,0,0,0]
+    for i in range (5):
+        sensor_IFR[i] = pin_sensor_IFR[i].value()
+    alarma_balanza = pin_alarma_balanza.value()
+    sensor_MG = pin_sensor_MG.value()
+    sensor_MG_2 = pin_sensor_MG_2.value()
+    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
+
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     if   aux==[0,0,0,0,1]: return 5; #gira mucho a la derecha
     elif aux==[0,0,0,1,1]: return 5; #gira mucho a la derecha
@@ -207,7 +217,3 @@ def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin
 
 
 
-    
-
-
-    

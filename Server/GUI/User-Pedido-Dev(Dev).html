@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Devolver | A.SYS.T{% endblock titulo %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'styles/UserPD.css' %}">
+{% endblock css %}
+
+{% block body %}
+<div class="container"> 
+  <div class="columns" id="devolver1">
+    <div class="column is-half">
+        <div class="card">
+            <article class="panel">
+              <p class="panel-heading" id="titlePanel1">En posesión actualmente</p>
+    
+    
+<div  id="panel-busqueda"></div>
+            </article>
+          </div>
+          <div class="card" id="text1">
+          <p class="panel-heading" id="titlePanel1">Observaciones</p>
+          <textarea class="textarea is-success" placeholder="Escribe aquí"></textarea>
+          </div>
+    </div>
+    <div class="column is-half">
+        <div class="container"id="logodevolver">
+            <img src="{% static 'resources/logo-name.png' %}" alt="A.SYS.T" >
+            <button class="button is-success is-large is-fullwidth" id="Devolbutton">Confirmar   Devolución</button>
+        </div>
+
+    </div>
+
+    </div>
+</div>
+
+
+
+
+
+<template id="bloque-lista">
+  <div class="panel-block"> 
+    <span class="panel-icon">
+      <i class="fas fa-question-circle" aria-hidden="true"></i>
+    </span>
+    <span class="texto-ped-item nombre-herr">Hola</span>
+    <span class="input-item">
+      <div class="field has-addons">
+        <div class="control">
+          <input class="input is-small itemnum" type="text" placeholder="N" readonly="true">
+        </div>
+        </div>
+    </span>
+</template>
+{% endblock body %}
+{% block js %}
+  <script src="{% static 'scripts/Devolucion.js' %}"></script>
+{% endblock js %}   
