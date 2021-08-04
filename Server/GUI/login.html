@@ -8,12 +8,14 @@
 
 {%block navbar%}{% endblock navbar %}
 {% block body %}
-    <img src="{% static 'resources/logo-name.png' %}" alt="Logotipo" id="logo1" height="100">
+    <img src="{% static 'resources/Logo-Name.png' %}" alt="Logotipo" id="logo1" height="100">
 <div class="columns" id="col1">
     <div class="column is-half is-offset-one-quarter ">
         <div class="card">
 
             <form action="" class="formulario1" method="POST">
+              {% csrf_token %}
+              {{form.as_p}}
             <div class="field">
                 <label class="label is-medium">Inicie sesión</label>
                 <div class="control has-icons-left" id="input-login">
@@ -35,7 +37,7 @@
                 </div>
             </div>
             <div id="button-box-1">
-                <a class="button is-link" id="button-form" href="#" >Ingresar</a>
+                <button class="button is-link" id="button-form" type="submit" >Ingresar</button>
             </div>
        </form>
         </div>
