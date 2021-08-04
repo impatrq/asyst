@@ -10,9 +10,14 @@ def Home(request):
     return render(request,'login.html')
 def Pedir(request):
     stock = Stock.objects.all()
-    return render(request,'User-Pedido-Dev(Ped).html')
+    print(request.user.username)
+    if request.user.is_authenticated:
+        return render(request,'User-Pedido-Dev(Ped).html')
+    else: return redirect('login')
 def Devol(request):
-    return render(request,'User-Pedido-Dev(Dev).html')
+    if request.user.is_authenticated:
+        return render(request,'User-Pedido-Dev(Dev).html')
+    else: return redirect('login')
 
 
 class StockListView(View):
@@ -24,19 +29,18 @@ class StockListView(View):
 def Registrar(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        print('1')
         if form.is_valid():
             form.save()
             # message.sucess(request,f'Usuario {username} creado')
-            print('2')
             return redirect('login')
     else:
         form = UserRegisterForm()
-        print('3')
     context = {'form':form}
     for i in form:
         print(i)
-    return render(request,'register.html', context=context)
+    if not request.user.is_authenticated:
+        return render(request,'register.html', context=context)
+    else: return redirect('login')
 
 def login2(request):
     return render(request,'login.html')

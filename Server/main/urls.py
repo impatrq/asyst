@@ -10,6 +10,6 @@ urlpatterns = [
     #path('pedir/scripts/ejemploBase.json',Example, name='example'),
     path('getstock/',StockListView.as_view()),
     path('registrar/',Registrar,name='registrar'),
-    path('', LoginView.as_view(template_name='login.html'),name='login'),
+    path('', LoginView.as_view(template_name='login.html',redirect_authenticated_user=True),name='login'),
     path('logout/',LogoutView.as_view(template_name='logout.html'),name='logout')
 ]
