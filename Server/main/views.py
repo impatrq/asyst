@@ -34,13 +34,15 @@ def Registrar(request):
         form = UserRegisterForm()
         print('3')
     context = {'form':form}
+    for i in form:
+        print(i)
     return render(request,'register.html', context=context)
 
 def login2(request):
     return render(request,'login.html')
 
 def logout(request):
-    return redirect(request,'login2')
+    return redirect(request,'login')
 
 
 # Borrar esto de abajo y su correspondiente en URLs, es para testear

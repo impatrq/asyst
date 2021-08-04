@@ -15,11 +15,10 @@
 
             <form action="" class="formulario1" method="POST">
               {% csrf_token %}
-              {{form.as_p}}
             <div class="field">
                 <label class="label is-medium">Inicie sesión</label>
                 <div class="control has-icons-left" id="input-login">
-                  <input class="input is-medium" type="email" placeholder="Usuario">
+                  <input class="input is-medium" type="text" name='username' required id='id_username'  placeholder="Usuario">
                   <span class="icon is-medium is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -30,12 +29,13 @@
             <div class="field">
                 <label class="label is-medium"> </label>
                 <div class="control has-icons-left" id="input-password">
-                  <input class="input is-medium" type="password" placeholder="Contraseña">
+                  <input class="input is-medium" type="password" name='password' required id='id_password' placeholder="Contraseña">
                   <span class="icon is-medium is-left">
                       <i class="fas fa-key"></i>
                   </span>
                 </div>
             </div>
+            {{form.errors}}
             <div id="button-box-1">
                 <button class="button is-link" id="button-form" type="submit" >Ingresar</button>
             </div>
