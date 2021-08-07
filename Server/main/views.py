@@ -6,16 +6,18 @@ from django.http.response import JsonResponse
 from django.views import View
 from .forms import UserRegisterForm
 # Create your views here.
-def Home(request):
-    return render(request,'login.html')
 def Pedir(request):
     stock = Stock.objects.all()
     print(request.user.username)
     if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect('/admin')
         return render(request,'User-Pedido-Dev(Ped).html')
     else: return redirect('login')
 def Devol(request):
     if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect('/admin')
         return render(request,'User-Pedido-Dev(Dev).html')
     else: return redirect('login')
 
@@ -36,19 +38,18 @@ def Registrar(request):
     else:
         form = UserRegisterForm()
     context = {'form':form}
-    for i in form:
-        print(i)
     if not request.user.is_authenticated:
         return render(request,'register.html', context=context)
     else: return redirect('login')
 
-def login2(request):
+def login(request):
     return render(request,'login.html')
 
 def logout(request):
     return redirect(request,'login')
 
-
+def home(request):
+    return redirect('login')
 # Borrar esto de abajo y su correspondiente en URLs, es para testear
 #def Example(request):
 #    return render(request,'scripts/ejemploBase.json')
