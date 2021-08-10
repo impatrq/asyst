@@ -28,26 +28,6 @@ class StockListView(View):
         return JsonResponse(list(sList.values()),safe=False)    
 
 
-def Registrar(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # message.sucess(request,f'Usuario {username} creado')
-            return redirect('login')
-    else:
-        form = UserRegisterForm()
-    context = {'form':form}
-    if not request.user.is_authenticated:
-        return render(request,'register.html', context=context)
-    else: return redirect('login')
-
-def login(request):
-    return render(request,'login.html')
-
-def logout(request):
-    return redirect(request,'login')
-
 def home(request):
     return redirect('login')
 # Borrar esto de abajo y su correspondiente en URLs, es para testear

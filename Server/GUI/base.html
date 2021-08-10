@@ -22,7 +22,7 @@
         <div class="container is-fluid ">
           <div class="navbar-brand">
             {% if request.user.is_authenticated %}
-            <a class="navbar-item" href="/user/logout">
+            <a class="navbar-item" href="/login/logout">
               <i class="fas fa-users is-large"></i>
             </a>
             {%else%}
