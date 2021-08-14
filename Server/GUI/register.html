@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block titulo %}Register | A.SYS.T{% endblock titulo %}
+
+  {% load static %}
+  {% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+  {% endblock css%}
+
+{%block navbar%}{% endblock navbar %}
+{% block body %}
+    <img src="{% static 'resources/Logo-Name.png' %}" alt="Logotipo" id="logo1" height="100">
+<div class="columns" id="col1">
+    <div class="column is-half is-offset-one-quarter ">
+        <div class="card">
+
+            <form action="" class="formulario1" method="POST">
+            {% csrf_token %} 
+            {%for x in form %}
+            <div class="field">
+              <div class="control has-icons-left">
+                {{x}}
+                <span class="icon is-medium is-left">
+                  <i class="fas fa-user"></i>
+              </span>
+              </div>
+          </div>
+          {{x.errors}}
+          {%if form.message%} {{form.message}} {%endif%}
+            {%endfor%}
+            <!-- <div class="field">
+                <label class="label is-medium">Cree su usuario</label>
+                <div class="control has-icons-left" id="input-login">
+                  <input name='username' class="input is-medium" type="email" placeholder="Usuario">
+                  <span class="icon is-medium is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+                  </span>
+                </div>
+            </div>
+              
+            <div class="field">
+                <label class="label is-medium"> </label>
+                <div class="control has-icons-left" id="input-password">
+                  <input name='password1' class="input is-medium" type="password" placeholder="Contraseña">
+                  <span class="icon is-medium is-left">
+                      <i class="fas fa-key"></i>
+                  </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label is-medium"> </label>
+                <div class="control has-icons-left" id="input-password">
+                  <input name='password2' class="input is-medium" type="password" placeholder="Confirmar Contraseña">
+                  <span class="icon is-medium is-left">
+                      <i class="fas fa-key"></i>
+                  </span>
+                </div>
+            </div> -->
+            <div id="button-box-1">
+                <button class="button is-link" id="button-form" type="submit">Crear usuario</button>
+            </div>
+       </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

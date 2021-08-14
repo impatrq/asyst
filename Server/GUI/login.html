@@ -8,16 +8,17 @@
 
 {%block navbar%}{% endblock navbar %}
 {% block body %}
-    <img src="{% static 'resources/logo-name.png' %}" alt="Logotipo" id="logo1" height="100">
+    <img src="{% static 'resources/Logo-Name.png' %}" alt="Logotipo" id="logo1" height="100">
 <div class="columns" id="col1">
     <div class="column is-half is-offset-one-quarter ">
         <div class="card">
 
             <form action="" class="formulario1" method="POST">
+              {% csrf_token %}
             <div class="field">
                 <label class="label is-medium">Inicie sesión</label>
                 <div class="control has-icons-left" id="input-login">
-                  <input class="input is-medium" type="email" placeholder="Usuario">
+                  <input class="input is-medium" type="text" name='username' required id='id_username'  placeholder="Usuario">
                   <span class="icon is-medium is-left">
                     <i class="fas fa-user"></i>
                 </span>
@@ -28,14 +29,15 @@
             <div class="field">
                 <label class="label is-medium"> </label>
                 <div class="control has-icons-left" id="input-password">
-                  <input class="input is-medium" type="password" placeholder="Contraseña">
+                  <input class="input is-medium" type="password" name='password' required id='id_password' placeholder="Contraseña">
                   <span class="icon is-medium is-left">
                       <i class="fas fa-key"></i>
                   </span>
                 </div>
             </div>
+            {{form.non_field_errors}}
             <div id="button-box-1">
-                <a class="button is-link" id="button-form" href="#" >Ingresar</a>
+                <button class="button is-link" id="button-form" type="submit" >Ingresar</button>
             </div>
        </form>
         </div>
