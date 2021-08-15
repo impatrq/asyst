@@ -7,12 +7,16 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 // Parámetro para calibrar el peso y el sensor
-#define CALIBRACION 20780.0           //MODIFICAR ESTE VALOR DEPENDIENDO EL VALOR OBTENIDO EN LA ETAPA DE CALIBRACIÓN
+#define CALIBRACION1 20780.0           //MODIFICAR ESTE VALOR DEPENDIENDO EL VALOR OBTENIDO EN LA ETAPA DE CALIBRACIÓN
+#define CALIBRACION2 20780.0
 // Pin de datos y de reloj
 byte pinData = 3;
 byte pinClk = 2;
+byte pinData2 = 4;
+byte pinClk2= 5;
 // Objeto HX711
-HX711 bascula;
+HX711 Bascula;
+HX711 Bascula2;
 //pines y variables de Buzzer
 unsigned int freq = 20000;      //probar la freq del buzzer y cualquier cosa cambiar
 
@@ -40,26 +44,30 @@ void setup() {
 
   //-------------------------BÁSCULA-----------------------
   // Iniciar sensor
-  bascula.begin(pinData, pinClk);
+  Bascula.begin(pinData, pinClk);
+  Bascula2.begin(pinData2, pinCLk2);
   // Aplicar la calibración
-  bascula.set_scale(CALIBRACION);
+  Bascula.set_scale(CALIBRACION1);
+  Bascula2.set_scale(CALIBRACION2);
   // Iniciar la tara
   // No tiene que haber nada sobre el peso
-  bascula.tare();
+  Bascula.tare();
+  Bascula2.tare()
 }
  
 void loop() {
   lcd.clear(); //limpio la pantalla (creo XD)
 #ifdef DEBUG_HX711  //probablemente borrar
 
-  float peso = bascula.get_units();
+  float peso1 = Bascula.get_units();
+  float peso2 = Bascula2.get_units();
+  float peso = (peso1+peso2)/2
 
 if (peso>=80){
     while (peso>=80){
       //imprimo el peso abajo
       lcd.setCursor(1,1);
       lcd.print(peso);
-
       //imprimo una alerta arriba y la borro después de un delay (titila)
       lcd.setCursor(1,0);
       lcd.print("PESO EXCEDIDO");
@@ -71,7 +79,10 @@ if (peso>=80){
       
       //limpio la pantalla (creo XD) y actualizo la variable "peso"
       lcd.clear();
-      peso = bascula.get_units(); 
+      peso1 = Bascula.get_units(); 
+      peso2 = Bascula2.get_units();
+      peso = (peso1+peso2)/2
+
     }
   }
 else{
