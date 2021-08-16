@@ -19,8 +19,10 @@ const selectorBusqueda = document.querySelector('p.panel-tabs')
 // no se como funciona esta parte del codigo, pero en resumen lee el JSON y deriva a la funcion pintarCards
 
 const fetchData = async () => {
-    const res = await fetch('/user/getstock');
-    data = await res.json()
+    // const res = await fetch('/user/getstock');
+    // data = await res.json()
+    data = JSON.parse(document.getElementById('stock-db').value)
+    // console.log(data)
     dataFiltrada = data
     data.forEach(item =>{item.selected = false})
     console.log(data)
@@ -157,6 +159,23 @@ function getCookie(name) {
 
 botonEnviar.addEventListener('click', function (){
     console.log(peticion)
+    var peticionFinal = []
+    const prepararPeticion = peticion =>{
+        Object.values(peticion).forEach(elemento =>{
+            console.log(elemento)
+            if      (elemento.clase == 'fa-toolbox'){elemento.clase = 1}
+            else if (elemento.clase == 'fa-tools'){elemento.clase = 2}
+            peticionFinal.push(elemento)
+        })
+        peticionFinal.sort(function(a, b){
+            if(a.nombre < b.nombre) { return -1; }
+            if(a.nombre > b.nombre) { return 1; }
+            return 0;
+        })
+        console.log(peticionFinal)
+    }
+    prepararPeticion(peticion)
+
     const csrftoken = getCookie('csrftoken');
     console.log(csrftoken)
     var http = new XMLHttpRequest();
@@ -165,12 +184,13 @@ botonEnviar.addEventListener('click', function (){
     http.setRequestHeader('X-CSRFToken', csrftoken);
 
     http.onreadystatechange = function() {
-        /*if(http.readyState == 4 && http.status == 200) { 
+        if(http.readyState == 4 && http.status == 200) { 
         //aqui obtienes la respuesta de tu peticion
-        alert(http.responseText);
-        }*/
+        alert(peticion);
+        }
     }
-    http.send(JSON.stringify(peticion));
+    console.log(peticionFinal)
+    http.send(JSON.stringify(peticionFinal));
 })
 
 

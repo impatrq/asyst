@@ -28,6 +28,8 @@ class Peticion(models.Model):
         RECHAZADA = 3
     estado = models.IntegerField(choices=Estado.choices)
     pedido = models.TextField(null=True)
+    mensaje = models.TextField(default=None, blank=True, null=True)
+    staff =  models.ForeignKey(User,on_delete=models.SET_NULL,default=None, blank=True, null=True,related_name='staff_a_cargo')
 
     def __str__(self):
         return str(self.autor) +" - "+ str(self.Estado.choices[self.estado-1][1]) #+" - "+ str(self.hora)

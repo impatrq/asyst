@@ -13,6 +13,7 @@ def Pedir(request):
     stock = JsonResponse(list(stockDb.values()),safe=False)
     for i in stock:
         print(i)
+        stock = i.decode('utf-8')
         print('-')
     print(stock)
     print(request.user.username)
@@ -24,10 +25,7 @@ def Pedir(request):
             # print(request.POST)
             # print(request.body.decode('utf-8')) # convierto los bytes a string
             lista = json.loads(request.body.decode('utf-8')) # lo cargo como json
-            for i in lista:                                 # lo muestro en consola
-                print(i + '-'*15)
-                for j in lista[i]:
-                    print (str(j) + '= '+ str(lista[i][j]))
+            print(lista)
             peticion = Peticion(                            # creo una peticion y la envio
                 autor=request.user,
                 estado=1,
@@ -43,14 +41,10 @@ def Devol(request):
             return redirect('/admin')
         pedido = Peticion.objects.filter(estado=1,autor= request.user)
         print(pedido)
-        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido[0]})
+        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido[len(pedido)-1]})
     else: return redirect('login')
 
 
-class StockListView(View):
-    def get(self, request):
-        sList = Stock.objects.all()
-        return JsonResponse(list(sList.values()),safe=False)    
 
 
 def home(request):
@@ -58,3 +52,5 @@ def home(request):
 # Borrar esto de abajo y su correspondiente en URLs, es para testear
 #def Example(request):
 #    return render(request,'scripts/ejemploBase.json')
+
+# ----------------------------------------------------------STAFF-----------------------------------------------

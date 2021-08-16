@@ -5,28 +5,28 @@ const fragment = document.createDocumentFragment() // Declaro el fragment, que u
 const boton = document.getElementById('Devolbutton')
 const observacion = document.querySelector('textarea.is-success')
 // const data = document.getElementById('pedido-db').value
-// let data = []
+let data = []
 
 const fetchData = async () => {
     // const res = await fetch('scripts/ejemploBase.json');
     // data = await res.json()
-    let data = document.getElementById('pedido-db')
-    console.log(data.value)
+    data = JSON.parse(document.getElementById('pedido-db').value)
+    console.log(data)
     pintarCards(data)
 }
 
 const pintarCards = data => {
     panel.innerHTML = ""
     data.forEach(item => {
-        item.cantidad = 11 //borrar despues, solo de prueba
-        templateCard.querySelector('.nombre-herr').textContent = item.title
+        // item.cantidad = 11 //borrar despues, solo de prueba
+        templateCard.querySelector('.nombre-herr').textContent = item.nombre
         // templateCard.querySelector('a.panel-block').dataset.id = item.id
         templateCard.querySelector('i').classList.remove('fa-toolbox'); 
         templateCard.querySelector('i').classList.remove('fa-tools'); 
         templateCard.querySelector('i').classList.remove('fa-question-circle'); 
         templateCard.querySelector('.itemnum').value = item.cantidad
-        if      (item.class == 1){templateCard.querySelector('i').classList.add('fa-toolbox');         }
-        else if (item.class == 2){templateCard.querySelector('i').classList.add('fa-tools');           }  
+        if      (item.clase == 1){templateCard.querySelector('i').classList.add('fa-toolbox');         }
+        else if (item.clase == 2){templateCard.querySelector('i').classList.add('fa-tools');           }  
         else {                    templateCard.querySelector('i').classList.add('fa-question-circle'); }
         // if(item.selected){templateCard.querySelector('a.panel-block').classList.add('tool-selected')}
         // else{templateCard.querySelector('a.panel-block').classList.remove('tool-selected')}
