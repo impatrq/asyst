@@ -111,7 +111,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Buenos_Aires'
+# Activa todo el sitio con el horario de Argentina
+from django.utils import timezone
+timezone.activate(TIME_ZONE)
 
 USE_I18N = True
 

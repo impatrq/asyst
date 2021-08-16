@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Stock(models.Model):
@@ -16,3 +17,22 @@ class Stock(models.Model):
     
     class Meta:
         ordering = ['nombre']
+
+class Peticion(models.Model):
+    id = models.AutoField(primary_key=True)
+    autor =  models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    hora = models.DateTimeField(auto_now_add=True)
+    class Estado(models.IntegerChoices):
+        PENDIENTE = 1
+        APROBADA  = 2
+        RECHAZADA = 3
+    estado = models.IntegerField(choices=Estado.choices)
+    pedido = models.TextField(null=True)
+    mensaje = models.TextField(default=None, blank=True, null=True)
+    staff =  models.ForeignKey(User,on_delete=models.SET_NULL,default=None, blank=True, null=True,related_name='staff_a_cargo')
+
+    def __str__(self):
+        return str(self.autor) +" - "+ str(self.Estado.choices[self.estado-1][1]) #+" - "+ str(self.hora)
+
+    class Meta:
+        ordering = ['hora']
