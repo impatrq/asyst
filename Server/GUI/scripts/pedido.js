@@ -138,8 +138,39 @@ function desTachar (id){
     data.forEach(item=>{if(id == tachado.dataset.id){item.selected = false}})
 }
 
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 botonEnviar.addEventListener('click', function (){
     console.log(peticion)
+    const csrftoken = getCookie('csrftoken');
+    console.log(csrftoken)
+    var http = new XMLHttpRequest();
+    var url = "/user/pedir/";
+    http.open("POST", url, true);
+    http.setRequestHeader('X-CSRFToken', csrftoken);
+
+    http.onreadystatechange = function() {
+        /*if(http.readyState == 4 && http.status == 200) { 
+        //aqui obtienes la respuesta de tu peticion
+        alert(http.responseText);
+        }*/
+    }
+    http.send(JSON.stringify(peticion));
 })
 
 

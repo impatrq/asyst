@@ -3,3 +3,6 @@ Server/main/migrations/__pycache__/
 Server/Server/__pycache__/
 venv/
 docs/
+**/__pycache__/*
+**/migrations
+*.pyc

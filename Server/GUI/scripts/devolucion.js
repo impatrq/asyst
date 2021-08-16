@@ -4,12 +4,14 @@ const panel = document.getElementById('panel-busqueda') // Declaro el "padre", e
 const fragment = document.createDocumentFragment() // Declaro el fragment, que uso para evitar el Reflow
 const boton = document.getElementById('Devolbutton')
 const observacion = document.querySelector('textarea.is-success')
-let data = []
+// const data = document.getElementById('pedido-db').value
+// let data = []
 
 const fetchData = async () => {
-    const res = await fetch('scripts/ejemploBase.json');
-    data = await res.json()
-    console.log(data)
+    // const res = await fetch('scripts/ejemploBase.json');
+    // data = await res.json()
+    let data = document.getElementById('pedido-db')
+    console.log(data.value)
     pintarCards(data)
 }
 
