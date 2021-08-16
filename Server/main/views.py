@@ -40,8 +40,13 @@ def Devol(request):
         if request.user.is_staff:
             return redirect('/admin')
         pedido = Peticion.objects.filter(estado=1,autor= request.user)
-        print(pedido)
-        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido[len(pedido)-1]})
+        pedido2 = pedido[len(pedido)-1]
+        if request.method == 'POST':
+            pedido2.mensaje = request.body.decode('utf-8')
+            print(request.body.decode('utf-8'))
+            pedido2.save()
+        # print(pedido)
+        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido2})
     else: return redirect('login')
 
 
