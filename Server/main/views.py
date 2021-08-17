@@ -57,5 +57,8 @@ def home(request):
 # Borrar esto de abajo y su correspondiente en URLs, es para testear
 #def Example(request):
 #    return render(request,'scripts/ejemploBase.json')
+def userData(request):
+    peticiones = Peticion.objects.filter(autor = request.user)
+    return render(request,'User-data.html',context={'peticiones':peticiones})
 
 # ----------------------------------------------------------STAFF-----------------------------------------------
