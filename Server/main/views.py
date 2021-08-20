@@ -19,7 +19,7 @@ def Pedir(request):
     print(request.user.username)
     if request.user.is_authenticated:
         if request.user.is_staff:
-            return redirect('/admin')
+            return redirect('/staff')
 
         if request.method=='POST': # Si hago un POST (desde el boton de enviar)
             # print(request.POST)
@@ -60,5 +60,3 @@ def home(request):
 def userData(request):
     peticiones = Peticion.objects.filter(autor = request.user)
     return render(request,'User-data.html',context={'peticiones':peticiones})
-
-# ----------------------------------------------------------STAFF-----------------------------------------------
