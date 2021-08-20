@@ -10,7 +10,7 @@ import requests
 #-----------------------Pines a utilizar---------------------------
 US_trigger_pin= 1
 US_echo_pin   = 2
-pin_boton_frenado = Pin(3, Pin.In)
+pin_boton_frenado = Pin(3, Pin.IN)
 pin_sensor_IFR    = [0,0,0,0,0] #4,5,6,7,8
 pin_sensor_IFR[0] = Pin(4, Pin.IN)
 pin_sensor_IFR[1] = Pin(5, Pin.IN)
