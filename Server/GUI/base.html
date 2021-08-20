@@ -2,13 +2,14 @@
 <html lang="es">
 <!-- Comentario con ctrl+K ctrl+C -->
 <head>
+  {% load static %}
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block titulo %}A.SYS.T Project{% endblock titulo %}</title>
+  <link rel="shortcut icon" href="{% static 'resources/favicon.png'%}" type="image/x-icon">
   <!-- <link rel="stylesheet" href="GUI/styles/main.css"> -->
   <!-- <link rel="stylesheet" href="GUI/styles/login.css"> -->
-  {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
   {% block css %}
   {% endblock css %}

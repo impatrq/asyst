@@ -1,0 +1,51 @@
+{% extends 'Staff-navbar.html' %}
+{% load static %}
+{% block titulo %}Pedidos | A.SYS.T {% endblock titulo %}
+{%block body%}
+<div class="py-3"></div>
+<div class="container">
+    <div class="columns is-centered is-multiline">
+      {%for pendiente in pendientes%}
+        <div class="column is-4">
+            <div class="card">
+                <header class="card-header">
+                  <p class="card-header-title is-centered">
+                    {{pendiente.autor}} {%if pendiente.autor.first_name%}({{pendiente.autor.first_name}} {{pendiente.autor.last_name}}){%endif%} #{{pendiente.id}}
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="content">
+                    Este usuario pidió las siguientes herramientas en el sector B:
+                    <a class="panel-block" data-id="3">
+                        <span class="panel-icon">
+                          <i class="fas fa-toolbox" aria-hidden="true"></i>
+                        </span>
+                        <p class="nombre-herr">Aceite</p>
+                      </a>
+                      <a class="panel-block" data-id="2">
+                        <span class="panel-icon">
+                          <i class="fas fa-tools" aria-hidden="true"></i>
+                        </span>
+                        <p class="nombre-herr">Martillo <b>x6</b></p>
+                        {% if pendiente.autor == request.user %}
+                      </a>
+                      <a class="panel-block" data-id="2">
+                        <span class="panel-icon">
+                          <i class="fas fa-tools" aria-hidden="true"></i>
+                        </span>
+                        <p class="nombre-herr">Martillo <b>x6</b></p>
+                        {%endif%}
+                      </a>
+                    <br>
+                    <time>{{pendiente.hora}}</time>
+                  </div>
+                </div>
+                <footer class="card-footer">
+                  <a href="#" class="card-footer-item"><i class="fas fa-check"></i></a>
+                  <a href="#" class="card-footer-item"><i class="fas fa-times"></i></a>
+                </footer>
+              </div>
+        
+</div>{%endfor%}
+</div>
+{%endblock body%}
