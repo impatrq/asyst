@@ -4,6 +4,7 @@ from main.models import Stock,Peticion
 from django.http import JsonResponse
 from django.http.response import JsonResponse
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import get_user_model
 import json
 
 @staff_member_required(login_url='home')
@@ -13,8 +14,27 @@ def staffHome(request):
 # ------------------------------------------------------- PEDIDOS -----------------------------------
 @staff_member_required(login_url='home')
 def pedidos(request):
-    pendientes = Peticion.objects.filter(estado = 1)
-    return render(request,'Staff-pedidos.html',context={'pendientes':pendientes})
+    pendientesDb = Peticion.objects.filter(estado = 1)
+    pendientes = JsonResponse(list(pendientesDb.values()),safe=False)
+    for i in pendientes: pendientes = i.decode('utf-8')
+    usuarioDb = get_user_model()
+    usuariosDb = usuarioDb.objects.filter(is_staff=False)
+    usuariosDbTemp = list(usuariosDb.values())
+    for i in usuariosDbTemp:
+        del i['password']
+        del i['email']
+    usuarios = JsonResponse(usuariosDbTemp,safe=False)
+    for i in usuarios: usuarios = i.decode('utf-8')
+    if request.method == 'POST':
+        req = json.loads(request.body.decode('utf-8'))
+        print(req)
+        pedido = Peticion.objects.get(id=req['id'])
+        pedido.mensaje = req['msg']
+        pedido.estado  = req['estado']
+        pedido.staff   = request.user
+        pedido.save()
+
+    return render(request,'Staff-pedidos.html',context={'pendientes':pendientes,'usuarios':usuarios})
 
 
 #--------------------------------------------STOCK---------------------------------------------------
@@ -53,7 +73,7 @@ def editStock(request,id):
         edited.save()
     return redirect('stock')
 
-@staff_member_required
+@staff_member_required(login_url='home')
 def removeStock(request, id):
     dato = Stock.objects.get(id=id)
     dato.delete()
