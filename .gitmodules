@@ -1,3 +1,9 @@
 [submodule "Server/GUI/styles/calendar"]
 	path = Server/GUI/styles/calendar
 	url = https://github.com/Wikiki/bulma-calendar
+[submodule "Server/GUI/styles/bulma"]
+	path = Server/GUI/styles/bulma
+	url = https://github.com/jgthms/bulma.git
+[submodule "Server/GUI/styles/steps"]
+	path = Server/GUI/styles/steps
+	url = https://github.com/Wikiki/bulma-steps.git
