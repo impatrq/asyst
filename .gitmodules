@@ -1,0 +1,3 @@
+[submodule "Server/GUI/styles/calendar"]
+	path = Server/GUI/styles/calendar
+	url = https://github.com/Wikiki/bulma-calendar
