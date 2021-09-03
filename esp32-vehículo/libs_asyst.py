@@ -13,11 +13,12 @@ import json
 9-gira 90° a la derecha
 8-PERDIDO
 """
-class URL:
+class URLs:
     def __init__(self):
         self.get ='http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
         self.send = 'http://127.0.0.1:8000'
         self.carrito_json = 'prueba_read.json'
+URL = URLs()
 
 def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
     boton_frenado = pin_boton_frenado.value()
@@ -157,28 +158,32 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             elif    carrito_dict['posicion_actual'][countIman] == 9: auxDireccion = 7
             else:   auxDireccion = 3
             carrito_dict['posicion_actual'][countIman] = 0
-            return carrito_dict, auxDireccion, countIman, server_dict,1
+            if auxDireccion==9 or auxDireccion==7: delay = True
+            else: delay=False
+            return carrito_dict, auxDireccion, countIman, server_dict, delay
         elif carrito_dict['posicion_actual'] == server_dict['destino']: 
             #print("Llegamos al Pañol")
             server_dict['destino'] = None #Reseteo La variable de destino para esperar uno nuevo
             carrito_dict_final = [carrito_dict]
             requests.post(URL.send, json=carrito_dict_final)
-            return carrito_dict, 0, countIman, server_dict,0
+            return carrito_dict, 6, countIman, server_dict,False
 
     else:
         countIman += 1
         carrito_dict['posicion_actual'][0] = countIman
         if (countIman < server_dict['destino'][0]) and (carrito_dict['posicion_actual'] != server_dict['destino']):  
             carrito_dict['posicion_actual'][countIman] = server_dict['destino'][countIman]
-            return carrito_dict, server_dict['destino'][countIman], countIman, server_dict,1
+            auxDireccion = int(carrito_dict['posicion_actual'][countIman])
+            if auxDireccion==9 or auxDireccion==7: delay = True
+            else: delay=False
+            return carrito_dict, auxDireccion, countIman, server_dict,delay
         else: 
             #print("Llegamos a Destino")
             server_dict['destino'] = destinoPanol
             #carrito_dict['posicion_actual']= carrito_dict['posicion_actual']
             carrito_dict_final = [carrito_dict]
             requests.post(URL.send, json=carrito_dict_final)
-            comenzar = 0
-            return carrito_dict, 0, countIman, server_dict['destino'],comenzar
+            return carrito_dict, 6, countIman, server_dict,False
             
 def regular_direccion(direccion, velocidades_dict): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
     if      direccion == 1: return  1,0,velocidades_dict['p30'], 1,0,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
@@ -186,8 +191,9 @@ def regular_direccion(direccion, velocidades_dict): #todo:usado            #Reco
     elif    direccion == 3: return  1,0,velocidades_dict['p100'],1,0,velocidades_dict['p100']
     elif    direccion == 4: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p60']
     elif    direccion == 5: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p30']
-    elif    direccion == 7: return  0,1,velocidades_dict['p40'], 1,0,velocidades_dict['p80']
-    elif    direccion == 9: return  1,0,velocidades_dict['p60'], 0,1,velocidades_dict['p40']
+    elif    direccion == 6: return  0,1,velocidades_dict['p50'], 1,0,velocidades_dict['p50']
+    elif    direccion == 7: return  0,1,velocidades_dict['p50'], 1,0,velocidades_dict['p50']
+    elif    direccion == 9: return  1,0,velocidades_dict['p50'], 0,1,velocidades_dict['p50']
     #elif    direccion == 8: return  0,velocidades_dict['p75'], 1,velocidades_dict['p75']
     else:   return 0,0,0,0,0,0; #l_forw, l_back, l_velocidad, r_forw, r_back, r_velocidad
 
@@ -213,7 +219,7 @@ def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_for
         pin_M_R_back.off()
 
 def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocidad,M_R_velocidad ):#todo:usado
-    if interrupcion == 0:
+    if not interrupcion:
         pin_M_L_pwm.duty(M_L_velocidad)
         pin_M_R_pwm.duty(M_R_velocidad)
     else:
