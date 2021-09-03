@@ -8,23 +8,26 @@ import .libs_asyst as lib
 import requests
 
 #-----------------------Pines a utilizar---------------------------
+#No se pueden usar: 6 al 11, 20, 23, 24, 28 a 31, 37, 38 
 US_trigger_pin= 1
 US_echo_pin   = 2
 pin_boton_frenado = Pin(3, Pin.IN)
-pin_sensor_IFR    = [0,0,0,0,0] #4,5,6,7,8
+pin_sensor_IFR    = [0,0,0,0,0] #4,5,12,13,14
 pin_sensor_IFR[0] = Pin(4, Pin.IN)
 pin_sensor_IFR[1] = Pin(5, Pin.IN)
-pin_sensor_IFR[2] = Pin(6, Pin.IN)
-pin_sensor_IFR[3] = Pin(7, Pin.IN)
-pin_sensor_IFR[4] = Pin(8, Pin.IN)
-pin_alarma_balanza= Pin(9, Pin.IN)
-pin_sensor_MG     = Pin(10, Pin.IN)
-
-pin_sensor_MG_2   = Pin(11, Pin.IN)
-pin_M_L_sentido   = Pin(12, Pin.OUT)
-pin_M_L_pwm       = 13 #referencia visual solamente
-pin_M_R_sentido   = Pin(14, Pin.OUT)
-pin_M_R_pwm       = 15 #referencia visual solamente
+pin_sensor_IFR[2] = Pin(12, Pin.IN)
+pin_sensor_IFR[3] = Pin(13, Pin.IN)
+pin_sensor_IFR[4] = Pin(14, Pin.IN)
+pin_alarma_balanza= Pin(15, Pin.IN)
+pin_sensor_MG     = Pin(16, Pin.IN)
+pin_sensor_MG_2   = Pin(17, Pin.IN)
+pin_M_L_forw      = Pin(18, Pin.OUT)
+pin_M_L_back      = Pin(19, Pin.OUT)
+pin_M_L_pwm       = 21 #referencia visual solamente
+pin_M_R_forw      = Pin(22, Pin.OUT)
+pin_M_R_back      = Pin(25, Pin.OUT)
+pin_M_R_pwm       = 26 #referencia visual solamente
+pin_M_enabled     = Pin(27, Pin.OUT)
 
 
 #----------------Variables y objetos a utilizar---------------------
@@ -47,9 +50,9 @@ carrito_dict = {
     'posicion_actual':[0,0,0],
     'perdido':None
 }
-freq_pwm = 10000
-pin_M_L_pwm = PWM(Pin(13),freq_pwm)
-pin_M_R_pwm = PWM(Pin(15),freq_pwm)
+freq_pwm = 300
+pin_M_L_pwm = PWM(Pin(21),freq_pwm)
+pin_M_R_pwm = PWM(Pin(26),freq_pwm)
 M_L_sentido,M_L_pwm,M_R_sentido,M_R_pwm = 0
 sensor_US = lib.HCSR04 (US_trigger_pin, US_echo_pin)
 velocidad = 65000
@@ -85,8 +88,8 @@ def main():
         if esperandoMG2: direccion = 3
         interrupcion = lib.frenado_emergencia(boton_frenado,sensor_US)
         interrupcion += alarma_balanza
-        M_L_sentido,M_L_pwm,M_R_sentido,M_R_pwm = lib.regular_direccion(direccion,velocidades_dict)
-        lib.regular_sentido_motores(pin_M_L_sentido,pin_M_R_sentido,M_L_sentido,M_R_sentido)
+        M_L_forw,M_L_back, M_L_pwm,M_R_forw,M_R_back, M_R_pwm = lib.regular_direccion(direccion,velocidades_dict)
+        lib.regular_sentido_motores(pin_M_L_forw,pin_M_L_back,M_L_forw,M_L_back,  pin_M_R_forw,pin_M_L_back,M_R_forw,M_R_back)
         lib.regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm,interrupcion,M_L_pwm,M_R_pwm)
         if direccion==8:
             carrito_dict['perdido'] = 1 #Pregunto si está perdido

@@ -181,21 +181,36 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             return carrito_dict, 0, countIman, server_dict['destino'],comenzar
             
 def regular_direccion(direccion, velocidades_dict): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
-    if      direccion == 1: return  1,velocidades_dict['p30'], 1,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
-    elif    direccion == 2: return  1,velocidades_dict['p60'], 1,velocidades_dict['p90']
-    elif    direccion == 3: return  1,velocidades_dict['p100'],1,velocidades_dict['p100']
-    elif    direccion == 4: return  1,velocidades_dict['p90'], 1,velocidades_dict['p60']
-    elif    direccion == 5: return  1,velocidades_dict['p90'], 1,velocidades_dict['p30']
-    elif    direccion == 7: return  0,velocidades_dict['p40'], 1,velocidades_dict['p80']
-    elif    direccion == 9: return  1,velocidades_dict['p60'], 0,velocidades_dict['p40']
+    if      direccion == 1: return  1,0,velocidades_dict['p30'], 1,0,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
+    elif    direccion == 2: return  1,0,velocidades_dict['p60'], 1,0,velocidades_dict['p90']
+    elif    direccion == 3: return  1,0,velocidades_dict['p100'],1,0,velocidades_dict['p100']
+    elif    direccion == 4: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p60']
+    elif    direccion == 5: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p30']
+    elif    direccion == 7: return  0,1,velocidades_dict['p40'], 1,0,velocidades_dict['p80']
+    elif    direccion == 9: return  1,0,velocidades_dict['p60'], 0,1,velocidades_dict['p40']
     #elif    direccion == 8: return  0,velocidades_dict['p75'], 1,velocidades_dict['p75']
-    else:   return 1,0,1,0; #l_sentido, l_velocidad, r_sentido, r_velocidad
+    else:   return 0,0,0,0,0,0; #l_forw, l_back, l_velocidad, r_forw, r_back, r_velocidad
 
-def regular_sentido_motores(pin_M_L_sentido,pin_M_R_sentido,L_sentido,R_sentido):#todo:usado
-    if L_sentido == 1: pin_M_L_sentido.on()
-    else: pin_M_L_sentido.off()
-    if R_sentido == 1: pin_M_R_sentido.on()
-    else: pin_M_R_sentido.off()
+def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_forw,pin_M_R_back,R_forw,R_back):#todo:usado
+    if L_forw==1 and L_back==0: #AVANZA
+        pin_M_L_forw.on()
+        pin_M_L_back.off()
+    elif L_forw==0 and L_back==1: #RETROCEDE
+        pin_M_L_forw.off()
+        pin_M_L_back.on()
+    else: #STOP
+        pin_M_L_forw.off()
+        pin_M_L_back.off()
+
+    if R_forw==1 and R_back==0: #AVANZA
+        pin_M_R_forw.on()
+        pin_M_R_back.off()
+    elif R_forw==0 and R_back==1: #RETROCEDE
+        pin_M_R_forw.off()
+        pin_M_R_back.on()
+    else: #STOP
+        pin_M_R_forw.off()
+        pin_M_R_back.off()
 
 def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocidad,M_R_velocidad ):#todo:usado
     if interrupcion == 0:
