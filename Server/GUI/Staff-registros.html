@@ -1,3 +1,56 @@
 {% extends 'Staff-navbar.html' %}
 {% load static %}
 {% block titulo %}Registros | A.SYS.T {% endblock titulo %}
+{%block css%}
+<link rel="stylesheet" href="{%static 'styles/calendar/dist/css/bulma-calendar.min.css'%}">
+{%endblock css%}
+{%block body%}
+<div class="py-5"></div>
+<div class="container">
+    <div class="columns">
+        <div class="column is-half">
+            <div class="card">
+                <article class="panel" >
+                  <p class="panel-heading" id="titlePanel1">Busqueda</p>
+                  <input type="hidden" id="stock-db" value="{{stock}}">
+
+                    <div id="panel-busqueda">
+
+                        <div class="item-stock-div">
+                            <a class="panel-block is-justify-content-space-between">
+                                <span class="panel-icon is-pulled-left">
+                                  <i class="fas fa-question-circle" aria-hidden="true"></i>
+                                </span>
+                                <span><p class="nombre-herr"> PEPE (José UwU)</p> </span>
+                                <div class="is-flex-grow-5"></div>
+                                <div class="is-align-items-right">
+                                    <button class="button is-small is-info">Ver más</button>
+                                </div>
+                            </a>
+                        <!-- MODAL EDIT -->
+                        </div>
+
+                    </div>
+                </article>
+        
+              </div>
+        </div>
+
+        <div class="column is-half is-justify-content-space-around">
+            <div class="control has-icons-left" id="searchBar1">
+                <input class="input" type="text" placeholder="Buscar">
+                <span class="icon is-large is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div><div class="py-2"></div>
+              <input type="date" data-is-range="true" data-close-on-select="false" class="calendar">
+
+        </div>
+    </div>
+</div>
+{%endblock body%}
+
+{%block js%}
+<script src="{%static 'styles/calendar/dist/js/bulma-calendar.min.js'%}"></script>
+<script src="{%static 'scripts/Staff-registros-calendario.js'%}"></script>
+{%endblock js%}
