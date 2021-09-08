@@ -82,5 +82,15 @@ def removeStock(request, id):
 # ----------------------------------------------------REGISTROS------------------------------------
 @staff_member_required(login_url='home')
 def registros(request):
-    peticiones = Peticion.objects.exclude(estado=1)
-    return render(request,'Staff-registros.html',context={'peticiones':peticiones})
+    peticionesDb = Peticion.objects.exclude(estado = 1)
+    peticiones = JsonResponse(list(peticionesDb.values())[::-1],safe=False)
+    for i in peticiones: peticiones = i.decode('utf-8')
+    usuarioDb = get_user_model()
+    usuariosDb = usuarioDb.objects.all()
+    usuariosDbTemp = list(usuariosDb.values())
+    for i in usuariosDbTemp:
+        del i['password']
+    usuarios = JsonResponse(usuariosDbTemp,safe=False)
+    for i in usuarios: usuarios = i.decode('utf-8')
+
+    return render(request,'Staff-registros.html',context={'peticiones':peticiones,'usuarios':usuarios})
