@@ -3,12 +3,13 @@
 {% block titulo %}Devolver | A.SYS.T{% endblock titulo %}
 {% block css %}
   <link rel="stylesheet" href="{% static 'styles/UserPD.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/steps/dist/css/bulma-steps.min.css' %}">
 {% endblock css %}
 
 {% block body %}
 <div class="container"> 
   <div class="columns" id="devolver1">
-    <div class="column is-half">
+    <div class="column">
         <div class="card">
             <article class="panel">
               <p class="panel-heading" id="titlePanel1">En posesión actualmente</p>
@@ -23,10 +24,53 @@
           <textarea class="textarea is-success" placeholder="Escribe aquí"></textarea>
           </div>
     </div>
-    <div class="column is-half">
+
+
+    <div class="column is is-three-fifths">
         <div class="container"id="logodevolver">
             <img src="{% static 'resources/Logo-Name.png' %}" alt="A.SYS.T" >
             <button class="button is-success is-large is-fullwidth" id="Devolbutton">Confirmar   Devolución</button>
+          <div class="py-5"></div>
+          <div class="card">
+            <div class="py-3"></div>
+          <div class="steps">
+
+            <div class="step-item is-completed is-success">
+              <div class="step-marker">
+                <span class="icon"><i class="fa fa-check"></i></span>
+              </div>
+              <div class="step-details">
+                <p class="step-title">Aprobado</p>
+              </div>
+            </div>
+
+            <div class="step-item is-active">
+              <div class="step-marker"></div>
+              <div class="step-details">
+                <p class="step-title">Preparando</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-marker">3</div>
+              <div class="step-details">
+                <p class="step-title">Viajando</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-marker">
+                <span class="icon"><i class="fa fa-flag"></i></span>
+              </div>
+              <div class="step-details">
+                <p class="step-title">En destino</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="py-1"></div>
+
+        </div>
         </div>
 
     </div>
