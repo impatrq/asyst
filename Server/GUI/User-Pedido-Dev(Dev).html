@@ -8,6 +8,47 @@
 
 {% block body %}
 <div class="container"> 
+  <div class="py-3"></div>
+  <div class="card">
+    <div class="py-3"></div>
+  <div class="steps">
+
+    <div class="step-item is-completed is-success">
+      <div class="step-marker">
+        <span class="icon"><i class="fa fa-check"></i></span>
+      </div>
+      <div class="step-details">
+        <p class="step-title">Aprobado</p>
+      </div>
+    </div>
+
+    <div class="step-item is-active">
+      <div class="step-marker"></div>
+      <div class="step-details">
+        <p class="step-title">Preparando</p>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-marker">3</div>
+      <div class="step-details">
+        <p class="step-title">Viajando</p>
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-marker">
+        <span class="icon"><i class="fa fa-flag"></i></span>
+      </div>
+      <div class="step-details">
+        <p class="step-title">En destino</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="py-1"></div>
+
+</div>
   <div class="columns" id="devolver1">
     <div class="column">
         <div class="card">
@@ -31,46 +72,7 @@
             <img src="{% static 'resources/Logo-Name.png' %}" alt="A.SYS.T" >
             <button class="button is-success is-large is-fullwidth" id="Devolbutton">Confirmar   Devolución</button>
           <div class="py-5"></div>
-          <div class="card">
-            <div class="py-3"></div>
-          <div class="steps">
 
-            <div class="step-item is-completed is-success">
-              <div class="step-marker">
-                <span class="icon"><i class="fa fa-check"></i></span>
-              </div>
-              <div class="step-details">
-                <p class="step-title">Aprobado</p>
-              </div>
-            </div>
-
-            <div class="step-item is-active">
-              <div class="step-marker"></div>
-              <div class="step-details">
-                <p class="step-title">Preparando</p>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <div class="step-marker">3</div>
-              <div class="step-details">
-                <p class="step-title">Viajando</p>
-              </div>
-            </div>
-
-            <div class="step-item">
-              <div class="step-marker">
-                <span class="icon"><i class="fa fa-flag"></i></span>
-              </div>
-              <div class="step-details">
-                <p class="step-title">En destino</p>
-              </div>
-            </div>
-
-          </div>
-          <div class="py-1"></div>
-
-        </div>
         </div>
 
     </div>
@@ -98,5 +100,5 @@
 </template>
 {% endblock body %}
 {% block js %}
-  <script src="{% static 'scripts/Devolucion.js' %}"></script>
+  <script src="{% static 'scripts/devolucion.js' %}"></script>
 {% endblock js %}   
