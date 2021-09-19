@@ -7,6 +7,8 @@ const modal = document.getElementById('modal-more')
 const botonCerrar = document.getElementById('boton-cerrar')
 const lista = document.querySelector('.item-list')
 const templateHerramienta = document.getElementById('herramienta-card').content
+const listaUsuarios = document.getElementById('lista-usuarios')
+const listaEstados = document.getElementById('lista-estados') 
 
 document.addEventListener('DOMContentLoaded', e => { fetchData() });
 
@@ -30,10 +32,12 @@ const fetchData = async () => {                       //leo la base de datos y l
     console.log(users)
     console.log(data)
     pintarCards(data)   // pinto las tarjetas con todos los datos
+    selectorUsuario(users)
 }
 
 
 const pintarCards = data => {
+    lista.innerHTML =''
     data.forEach(pendiente =>{
         // console.log(pendiente)
 
@@ -92,7 +96,7 @@ function expandirModal(id){
     else{modal.querySelector('.modal-card-title').innerHTML =  `${pedidoActual.autor.username} (${pedidoActual.autor.last_name} ${pedidoActual.autor.first_name}) #${pedidoActual.id}`}
     modal.querySelector('time').innerHTML = `${pedidoActual.hora[0]} - ${pedidoActual.hora[1]}`
     modal.querySelector('.herrs').innerHTML = ''
-    if(pedidoActual.autor.first_name.length == 0){
+    if(pedidoActual.staff.first_name.length == 0){
         modal.querySelector('.staff').innerHTML = pedidoActual.staff.username}
     else{
         modal.querySelector('.staff').innerHTML = `${pedidoActual.staff.username} (${pedidoActual.staff.first_name} ${pedidoActual.staff.last_name})`}
@@ -133,3 +137,20 @@ function expandirModal(id){
 botonCerrar.addEventListener ('click',function(){modal.classList.remove('is-active')})
 
 
+
+const selectorUsuario = users =>{
+    listaUsuarios.innerHTML = '<option value="0">Usuarios</option>'
+    users.forEach(user=>{
+        // console.log(user.username)
+        if (user.is_staff){
+        listaUsuarios.innerHTML += `<option value="${user.id}">${user.username} (S)</option>`}
+        else{
+            listaUsuarios.innerHTML += `<option value="${user.id}">${user.username}</option>`}
+        const clone = templateCard.cloneNode(true)
+        fragment.appendChild(clone)
+    })
+    listaUsuarios.appendChild(fragment)
+}
+
+// listaUsuarios.addEventListener('change',filtroUsuarioEstado(data))
+// listaEstados.addEventListener('change',filtroUsuarioEstado(data))

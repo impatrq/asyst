@@ -34,6 +34,33 @@
                 </span>
               </div><div class="py-2"></div>
               <input type="date" data-is-range="true" data-close-on-select="false" class="calendar" data-date-Format='dd/MM/yyyy' data-lang="es">
+              <div class="py-3"></div>
+                <div class="field is-grouped is-justify-content-space-around"id='boton-filtro'>
+                  <div class="control has-icons-left">
+                  <div class="select is-medium">
+                 <select id="lista-usuarios">
+                  <option value="0">Usuario</option>
+                  <option>With options</option>
+                </select></div>
+                <div class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </div>
+                </div>
+
+                
+              <div class="control has-icons-left">
+              <div class="select is-medium">
+                <select id='lista-estados'>
+                  <option value="0">Estado</option>
+                  <option value="2">Aprobado</option>
+                  <option value="3">Rechazado</option>
+                </select> 
+                </div>
+                <div class="icon is-small is-left">
+                  <i class="fas fa-question"></i>
+                </div></div>
+
+              </div>
 
         </div>
     </div>
@@ -49,7 +76,7 @@
       <section class="modal-card-body">
         <p>Este usuario pidió las siguientes herramientas:</p>
         <div class="herrs"></div>
-        <p>Este pedido fué <b class='estado'>x</b> por <b class='staff'>y</b>.</p>
+        <p>Este pedido fué <b class='estado'>x</b> por <b class='staff'>y</b>.</p><br>
         <p class='pre-mensaje'>Lleva adjunto el siguiente mensaje:</p>
         <p class='mensaje pl-5'></p>
       </section>
@@ -87,5 +114,6 @@
 {%block js%}
 <script src="{%static 'styles/calendar/dist/js/bulma-calendar.min.js'%}"></script>
 <script src="{%static 'scripts/Staff-registros-calendario.js'%}"></script>
+<script src="{%static 'scripts/Staff-registros-filtro.js'%}"></script>
 <script src="{%static 'scripts/Staff-registros-visual.js'%}"></script>
 {%endblock js%}
