@@ -15,6 +15,7 @@
     if (element) {
         // bulmaCalendar instance is available as element.bulmaCalendar
         element.bulmaCalendar.on('select', function(datepicker) {
-            console.log(datepicker.data.value());
+            // console.log(datepicker.data.value());
+            filtrar()
         });
     }
