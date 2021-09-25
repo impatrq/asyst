@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.utils.html import escapejs
 from main.models import Stock,Peticion
 from django.http import JsonResponse
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model
 import json
