@@ -1,0 +1,29 @@
+{% extends 'User-navbar.html' %}
+{% load static %}
+{% block titulo %} Datos de usuario | A.SYS.T{% endblock titulo %}
+{%block body%}
+<div class="hero py-4">
+</div>
+<div class="container">
+    <div class="columns is-centered">
+    <div class="column is-half">
+        <div class="card">
+        <div class="card-header">
+            <ul>
+            {% for peticion in peticiones %}
+                {%if peticion.estado == 1%}
+                <li>
+                {%elif peticion.estado == 2%}
+                <li style="color: green;">
+                {% else %}
+                <li style="color: red;">
+                {%endif%}
+                    {{peticion.hora}}
+                </li>
+            {% endfor %}</ul>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+{%endblock body%}

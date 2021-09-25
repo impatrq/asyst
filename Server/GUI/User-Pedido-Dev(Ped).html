@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'User-navbar.html' %}
 {% load static %}
 {% block titulo %}Pedir | A.SYS.T{% endblock titulo %}
 {% block css %}
@@ -74,9 +74,9 @@
       <span class="texto-ped-item">Hola</span>
       <span class="input-item">
         <div class="field has-addons">
-          <ul>
-            <li><a class="button is-primary is-small suma">+</a></li>
-            <li><a class="button is-danger is-small resta">-</a></li>
+          <ul class="seleccion">
+            <li class="seleccion"><a class="button is-primary is-small suma">+</a></li>
+            <li class="seleccion"><a class="button is-danger is-small resta">-</a></li>
             </ul>
           <div class="control">
             <input class="input is-small itemnum" type="text" placeholder="N" readonly="true">

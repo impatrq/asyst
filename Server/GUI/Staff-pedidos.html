@@ -1,0 +1,84 @@
+{% extends 'Staff-navbar.html' %}
+{% load static %}
+{% block titulo %}Pedidos | A.SYS.T {% endblock titulo %}
+{%block body%}
+<div class="py-3"></div>
+<div class="container">
+  <input type="hidden" id='pedidos-db' value="{{pendientes}}">
+  <input type="hidden" id='usuarios-db' value="{{usuarios}}">
+    <div class="columns is-centered is-multiline">
+    </div>
+  </div>
+
+<template id="card-pedido">
+  <div class="column is-4">
+    <div class="card">
+        <header class="card-header">
+          <p class="card-header-title is-centered"></p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            Este usuario pidió las siguientes herramientas:
+            <div class="herrs"></div>
+            <br>
+            <time>HORA</time>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a class="card-footer-item aprobar"><i class="fas fa-check"></i></a>
+          <a class="card-footer-item rechazar"><i class="fas fa-times"></i></a>
+        </footer>
+      </div>
+</div>
+</template>
+
+<template id='herramienta-card'>
+  <a class="panel-block">
+    <span class="panel-icon">
+      <i class="fas" aria-hidden="true"></i>
+    </span>
+    <p class="nombre-herr">ERROR</p>
+  </a>
+</template>
+
+
+<div class="modal" id='modal-more'>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modal title</p>
+      <a id='boton-cerrar'><span class="icon"><i class="fas fa-2x fa-times-circle"></i></span></a>
+    </header>
+    <section class="modal-card-body">
+      <p>Este usuario pidió las siguientes herramientas:</p>
+      <div class="herrs"></div>
+    </section>
+    <footer class="modal-card-foot is-justify-content-space-around">
+      <time>HORA</time>
+    </footer>
+  </div>
+</div>
+
+
+<div class="modal" id='modal-reject'>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Rechazar</p>
+      <a id='boton-cerrar-2'><span class="icon"><i class="fas fa-2x fa-times-circle"></i></span></a>
+    </header>
+    <section class="modal-card-body">
+      <p>Escriba la razon del rechazo:</p>
+      <textarea class="textarea is-danger" placeholder="Rechazo este pedido por..."></textarea>
+      <p class="has-text-danger"><b id='error'></b></p>
+    </section>
+    <footer class="modal-card-foot is-justify-content-space-around">
+      <button class="button is-danger">Rechazar</button>
+    </footer>
+  </div>
+</div>
+{%endblock body%}
+{%block js%}
+<script src="{% static 'scripts/Staff-pedidos.js' %}"></script>
+<script src="{% static 'scripts/Staff-pedidos-visual.js' %}"></script>
+{%endblock js%}

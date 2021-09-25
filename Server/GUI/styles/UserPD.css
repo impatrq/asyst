@@ -52,8 +52,8 @@
 }
 .suma{height: 15px; font-size: 100px; padding: 3px; }
 .resta{height: 15px;padding: 5px;}
-ul{margin:0; width: 10px; }
-li{margin:0 0 0 -4px; padding:-15px; border:-15px;height: 15px; width: 2px;}
+ul.seleccion{margin:0; width: 10px; }
+li.seleccion{margin:0 0 0 -4px; padding:-15px; border:-15px;height: 15px; width: 2px;}
 .panel-block{height: 40px;}
 .panel-block.vacio{height: auto;}
 /* ------------------------------------Devolución------------------------------------*/

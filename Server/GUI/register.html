@@ -15,16 +15,82 @@
 
             <form action="" class="formulario1" method="POST">
             {% csrf_token %} 
+
+
+            <div class="container">
+
+              <div class="title">Registrarse</div>
+                <div class="field">
+                  <label class="label" for="username">Usuario</label>
+                  <div class="control has-icons-left">
+
+                    <input type="text" name="username" class="input" placeholder="Usuario" autofocus required id="id_username"><span class="icon is-left"><i class="fas fa-user"></i></span>
+                  
+                  </div>
+                  <label class="label" for="email">Email</label>
+                  <div class="control has-icons-left">
+
+                    <input type="text" name="email" class="input" placeholder="Email" id="id_email"><span class="icon is-left"><i class="fas fa-envelope-square"></i></span>
+                  
+                  </div>
+                 
+                  <div class="columns">
+                    <div class="column">
+                      <label class="label">Nombre</label>
+                      <div class="control has-icons-left">
+
+                        <input type="text" name="first_name" class="input" placeholder="Nombre" id="id_first_name">
+                        
+                      </div>
+                    </div>
+                    <div class="column">
+                      <label class="label">Apellido</label>
+                      <div class="control has-icons-left">
+                     
+                        <input type="text" name="last_name" class="input" placeholder="Apellido" id="id_last_name">
+                     
+                      </div>
+                    </div>
+                  </div>
+                  <div class="columns">
+                    <div class="column">
+                      <label class="label" for="password">Contraseña</label>
+                      <div class="control has-icons-left">
+                     
+                        <input type="password" name="password1" class="input" placeholder="Contraseña" required id="id_password1">
+                        <span class="icon is-left"><i class="fas fa-key"></i></span>
+                     
+                      </div>
+                    </div>
+                    <div class="column">
+                      <label class="label" for="retypePassword">Confirmar Contraseña</label>
+                      <div class="control has-icons-left">
+                     
+                        <input type="password" name="password2" class="input" placeholder="Confirmar Contraseña" required id="id_password2">
+                        <span class="icon is-left"><i class="fas fa-lock"></i></span>
+                     
+                      </div>
+                    </div>
+
+                  </div>
+                  <label class="checkbox">
+                    <input type="checkbox">
+                    Usuario Staff
+                  </label>
+                  <div class="py-1"></div>
+                  <div class="field is-grouped is-justify-content-space-around">
+                    <div id="button-box-1">
+                      <button class="button is-link" id="button-form" type="submit">Crear usuario</button>
+                  </div>
+                  </div>
+                </div>
+            </div>
+
+
+            
             {%for x in form %}
-            <div class="field">
-              <div class="control has-icons-left">
-                {{x}}
-                <span class="icon is-medium is-left">
-                  <i class="fas fa-user"></i>
-              </span>
-              </div>
-          </div>
-          {{x.errors}}
+            <!-- {{x}} -->
+            <p class="has-text-danger"><b id='error'>{{x.errors}}</b></p>
           {%if form.message%} {{form.message}} {%endif%}
             {%endfor%}
             <!-- <div class="field">
@@ -56,9 +122,7 @@
                   </span>
                 </div>
             </div> -->
-            <div id="button-box-1">
-                <button class="button is-link" id="button-form" type="submit">Crear usuario</button>
-            </div>
+            <div class="py-5"></div>
        </form>
         </div>
     </div>

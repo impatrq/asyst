@@ -1,0 +1,115 @@
+{% extends 'Staff-navbar.html' %}
+{% load static %}
+{% block titulo %}Stock | A.SYS.T {% endblock titulo %}
+
+{%block body%}
+<div class="hero py-5"></div>
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-three-quarters">
+            <div class="card">
+                <article class="panel" >
+                  <div class="panel-heading is-justify-content-space-around" id="titlePanel1">
+                        <span>Stock</span>
+                        <a class="is-pulled-right has-text-sucess" id="add-stock">
+                            <i class="fas fa-lg fa-plus-circle"></i></a>
+                    </div>
+                  <input type="hidden" id="stock-db" value="{{stock}}"> 
+                  <div class="panel-block">
+                    <p class="control has-icons-left">
+                      <input class="input" type="text" placeholder="Buscar"id="barra-busqueda">
+                      <span class="icon is-left">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                      </span>
+                    </p>
+                  </div>
+                  <p class="panel-tabs">
+                    <a class="is-active">Todos</a>
+                    <a>Herramientas</a>
+                    <a>Insumos</a>
+                  </p>
+                  <input type="hidden" id="stock-db" value="{{stock}}">
+                  <div class="bloque-lista"></div>
+                    </article>
+              </div>
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+
+<template id="item-stock">
+  <div class="item-stock-div">
+    <a class="panel-block is-justify-content-space-between">
+        <span class="panel-icon is-pulled-left">
+          <i class="fas" aria-hidden="true"></i>
+        </span>
+        <span><p class="nombre-herr"> </p> </span>
+        <div class="is-flex-grow-5"></div>
+        <div class="is-align-items-right">
+              <button class="button is-small is-warning">Editar</button>
+              <button class="button is-small is-danger">Eliminar</button></div>        
+    </a>
+<!-- MODAL EDIT -->
+</div>
+
+</template>
+<!-- ------------------------------------------------------------------------------------------MODAL ADD-------- -->
+<div class="modal" id="panel-add">
+  <div class="modal-background"></div>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Añadir stock
+      </p>
+      <a  id="boton-cerrar"class="card-header-icon" aria-label="more options">
+        <span class="icon"><i class="fas fa-2x fa-times-circle"></i></span>
+      </a>
+    </header>
+    <div class="card-content">
+      <div class="content">
+        Seleccione los parametros de la Herramienta
+        <br><br>
+        <div class="field-group">
+          <div class="field">
+           <label class="label">Nombre</label>
+           <div class="control">
+           <input class="input name" type="text" placeholder="Herramienta">
+           </div>
+          </div>
+         
+         <div class="field is-inline-block">
+          <label class="label">Cantidad</label>
+          <div class="control">
+           <input class="input num" type="number" placeholder="N°">
+          </div>
+          </div>
+
+          <div class="field is-inline-block">
+            <label class="label">Tipo</label>
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option value="0">------</option>
+                  <option value="1">Insumo</option>
+                  <option value="2">Herramienta</option>
+                </select>
+              </div>
+            </div>
+          </div>
+         </div>
+    </div>
+    <p class="has-text-danger"><b id='error'></b></p>
+
+    </div>
+    <footer class="card-footer">
+      <a href="#" class="card-footer-item">Guardar</a>
+    </footer>
+  </div>
+</div>
+{%endblock body%}
+{%block js%}
+<script src="{% static 'scripts/Staff-stock-visual.js' %}"></script>
+<script src="{% static 'scripts/Staff-stock.js' %}"></script>
+{%endblock js%}

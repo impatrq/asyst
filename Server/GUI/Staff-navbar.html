@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Staff | A.SYS.T {% endblock titulo %}
+{%block navbar%}
+<nav class="navbar is-fixed-top is-light">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="../">
+                <img src="{% static 'resources/Logo-Short.png' %}" alt="Logo">
+            </a>
+            <span class="navbar-burger burger" data-target="navbarMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </div>
+        <div id="navbarMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <div class="tabs is-right">
+                    <ul>
+                        <li {% if request.path == "/staff/pedidos/" %} class="is-active" {%endif%}>
+                            <a href="/staff/pedidos/">Pedidos</a></li>
+                            <li {% if request.path == "/staff/stock/" %}class="is-active"{%endif%}>
+                            <a href="/staff/stock/">Stock</a></li>                        
+                            <li {% if request.path == "/staff/registros/" %}class="is-active"{%endif%}>
+                            <a href="/staff/registros/">Registros</a></li>
+                            <li {% if request.path == "/staff/usuarios/" %}class="is-active"{%endif%}>
+                            <a href="/staff/usuarios/">Usuarios</a></li></ul> 
+                        <a href="/login/logout/" title="logout"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<script>
+    (function() {
+        var burger = document.querySelector('.burger');
+        var menu = document.querySelector('#'+burger.dataset.target);
+        burger.addEventListener('click', function() {
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+        });
+    })();
+</script>
+{%endblock navbar%}

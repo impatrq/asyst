@@ -1,0 +1,119 @@
+{% extends 'Staff-navbar.html' %}
+{% load static %}
+{% block titulo %}Registros | A.SYS.T {% endblock titulo %}
+{%block css%}
+<link rel="stylesheet" href="{%static 'styles/calendar/dist/css/bulma-calendar.min.css'%}">
+{%endblock css%}
+{%block body%}
+<div class="py-5"></div>
+<div class="container">
+    <div class="columns">
+        <div class="column is-half">
+            <div class="card">
+                <input type="hidden" id='usuarios-db'   value="{{usuarios}}">
+                <input type="hidden" id='peticiones-db' value="{{peticiones}}">
+                <article class="panel" >
+                  <p class="panel-heading" id="titlePanel1">Registro</p>
+
+                    <div id="panel-busqueda">
+
+                        <div class="item-list">
+                        </div>
+
+                    </div>
+                </article>
+        
+              </div>
+        </div>
+
+        <div class="column is-half is-justify-content-space-around"id='boton-filtro'>
+            <div class="control has-icons-left" id="searchBar1">
+                <input class="input" type="search" placeholder="Buscar (herramienta)">
+                <span class="icon is-large is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div><div class="py-2"></div>
+              <input type="date" data-is-range="true" data-close-on-select="false" class="calendar" data-date-Format='dd/MM/yyyy' data-lang="es">
+              <div class="py-3"></div>
+                <div class="field is-grouped is-justify-content-space-around">
+                  <div class="control has-icons-left">
+                  <div class="select is-medium">
+                 <select id="lista-usuarios">
+                  <option value="0">Usuario</option>
+                  <option>With options</option>
+                </select></div>
+                <div class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </div>
+                </div>
+
+                
+              <div class="control has-icons-left">
+              <div class="select is-medium">
+                <select id='lista-estados'>
+                  <option value="0">Estado</option>
+                  <option value="2">Aprobado</option>
+                  <option value="3">Rechazado</option>
+                </select> 
+                </div>
+                <div class="icon is-small is-left">
+                  <i class="fas fa-question"></i>
+                </div></div>
+
+              </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id='modal-more'>
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Modal title</p>
+        <a id='boton-cerrar'><span class="icon"><i class="fas fa-2x fa-times-circle"></i></span></a>
+      </header>
+      <section class="modal-card-body">
+        <p>Este usuario pidió las siguientes herramientas:</p>
+        <div class="herrs"></div>
+        <p>Este pedido fué <b class='estado'>x</b> por <b class='staff'>y</b>.</p><br>
+        <p class='pre-mensaje'>Lleva adjunto el siguiente mensaje:</p>
+        <p class='mensaje pl-5'></p>
+      </section>
+      <footer class="modal-card-foot is-justify-content-space-around">
+        <time>HORA</time>
+      </footer>
+    </div>
+  </div>
+  
+
+  <template id='herramienta-card'>
+    <a class="panel-block">
+      <span class="panel-icon">
+        <i class="fas" aria-hidden="true"></i>
+      </span>
+      <p class="nombre-herr">ERROR</p>
+    </a>
+  </template>
+
+<template id='temp-pedido'>
+
+    <a class="panel-block is-justify-content-space-between">
+        <span class="fa-lg panel-icon is-pulled-left">
+          <i class="fas" aria-hidden="true"></i>
+        </span>
+        <span><p class="info"> PEPE</p> </span>
+        <div class="is-flex-grow-5"></div>
+        <div class="is-align-items-right">
+            <button class="button is-small is-info">Ver más</button>
+        </div>
+    </a>
+</template>
+{%endblock body%}
+
+{%block js%}
+<script src="{%static 'styles/calendar/dist/js/bulma-calendar.min.js'%}"></script>
+<script src="{%static 'scripts/Staff-registros-calendario.js'%}"></script>
+<script src="{%static 'scripts/Staff-registros-filtro.js'%}"></script>
+<script src="{%static 'scripts/Staff-registros-visual.js'%}"></script>
+{%endblock js%}
