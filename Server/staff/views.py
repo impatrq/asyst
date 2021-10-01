@@ -6,6 +6,7 @@ from django.http.response import JsonResponse, HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model
 import json
+from carrito.models import Carrito
 
 @staff_member_required(login_url='home')
 def staffHome(request):
@@ -25,6 +26,9 @@ def pedidos(request):
         del i['email']
     usuarios = JsonResponse(usuariosDbTemp,safe=False)
     for i in usuarios: usuarios = i.decode('utf-8')
+    carritosDb = Carrito.objects.all()
+    carritos = JsonResponse(list(carritosDb.values()),safe=False)
+    for i in carritos: carritos = i.decode('utf-8')
     if request.method == 'POST':
         req = json.loads(request.body.decode('utf-8'))
         print(req)
@@ -34,7 +38,7 @@ def pedidos(request):
         pedido.staff   = request.user
         pedido.save()
 
-    return render(request,'Staff-pedidos.html',context={'pendientes':pendientes,'usuarios':usuarios})
+    return render(request,'Staff-pedidos.html',context={'pendientes':pendientes,'usuarios':usuarios,'carritos':carritos})
 
 
 #--------------------------------------------STOCK---------------------------------------------------
