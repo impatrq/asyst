@@ -20,10 +20,20 @@ class URLs:
         self.carrito_json = 'prueba_read.json'
 URL = URLs()
 
+def potencia(velocidad):
+    '''Devuelve una lista en la que cada posición corresponde a un porcentaje de la velocidad ingresada'''
+    velocidad = int(velocidad)
+    p = []
+    for percent in range(101):
+        aux1 = int((velocidad/100)*percent)
+        p.append(aux1)
+    return p
+
 def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
+    '''Actualiza los valores del botón de frenado, los sensores IFR, la alarma de balanza y sensores magnéticos'''
     boton_frenado = pin_boton_frenado.value()
-    sensor_IFR = [0,0,0,0,0]
-    for i in range (5):
+    sensor_IFR = [0,0,0,0]
+    for i in range (4):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
     alarma_balanza = pin_alarma_balanza.value()
     sensor_MG = pin_sensor_MG.value()
@@ -31,17 +41,14 @@ def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin
     return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
-    if   aux==[0,0,0,0,1]: return 5; #gira mucho a la derecha
-    elif aux==[0,0,0,1,1]: return 5; #gira mucho a la derecha
-    elif aux==[0,1,1,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,0,1,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,0,1,1,0]: return 4; #gira un poco a la derecha
-    elif aux==[0,1,1,1,0]: return 3; #Avanza en línea recta
-    elif aux==[1,1,1,0,0]: return 2; #gira un poco a la izquierda
-    elif aux==[0,1,1,0,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,1,1,1,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,1,0,0,0]: return 1; #gira mucho a la izquierda
-    elif aux==[1,0,0,0,0]: return 1; #gira mucho a la izquierda
+    '''Devuelve una dirección en base a los sensores IFR'''
+    if   aux==[0,0,0,1]: return 5; #gira mucho a la derecha
+    elif aux==[0,0,1,1]: return 5; #gira un poco a la derecha
+    elif aux==[0,1,1,1]: return 4; #gira un poco a la derecha
+    elif aux==[0,1,1,0]: return 3; #linea recta
+    elif aux==[1,1,1,0]: return 2; #gira un poco a la izquierda
+    elif aux==[1,1,0,0]: return 2; #gira un poco a la izquierda
+    elif aux==[1,0,0,0]: return 1; #gira un poco a la izquierda
     else: return 8; #Perdido D:
 
 def crear_posicion(carrito_dict):#*Función auxiliar opcional
@@ -185,19 +192,20 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             requests.post(URL.send, json=carrito_dict_final)
             return carrito_dict, 6, countIman, server_dict,False
             
-def regular_direccion(direccion, velocidades_dict): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
-    if      direccion == 1: return  1,0,velocidades_dict['p30'], 1,0,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
-    elif    direccion == 2: return  1,0,velocidades_dict['p60'], 1,0,velocidades_dict['p90']
-    elif    direccion == 3: return  1,0,velocidades_dict['p100'],1,0,velocidades_dict['p100']
-    elif    direccion == 4: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p60']
-    elif    direccion == 5: return  1,0,velocidades_dict['p90'], 1,0,velocidades_dict['p30']
-    elif    direccion == 6: return  0,1,velocidades_dict['p50'], 1,0,velocidades_dict['p50']
-    elif    direccion == 7: return  0,1,velocidades_dict['p50'], 1,0,velocidades_dict['p50']
-    elif    direccion == 9: return  1,0,velocidades_dict['p50'], 0,1,velocidades_dict['p50']
-    #elif    direccion == 8: return  0,velocidades_dict['p75'], 1,velocidades_dict['p75']
+def regular_direccion(direccion, p1,p2,p3,p4,p5): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
+    '''Devuelve una configuración para las ruedas en base a la dirección y los porcentajes de potencia ingresados'''    
+    if      direccion == 1: return  1,0,p1, 1,0,p3 #Acá se usaría el comando ".duty()" para regular la velocidad
+    elif    direccion == 2: return  1,0,p2, 1,0,p3
+    elif    direccion == 3: return  1,0,p4, 1,0,p4
+    elif    direccion == 4: return  1,0,p3, 1,0,p2
+    elif    direccion == 5: return  1,0,p3, 1,0,p1
+    elif    direccion == 6: return  0,1,p5, 1,0,p5
+    elif    direccion == 7: return  0,1,p5, 1,0,p5
+    elif    direccion == 9: return  1,0,p5, 0,1,p5
     else:   return 0,0,0,0,0,0; #l_forw, l_back, l_velocidad, r_forw, r_back, r_velocidad
 
 def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_forw,pin_M_R_back,R_forw,R_back):#todo:usado
+    '''Ejecuta la configuración del sentido de las ruedas ingresada'''
     if L_forw==1 and L_back==0: #AVANZA
         pin_M_L_forw.on()
         pin_M_L_back.off()
@@ -218,23 +226,14 @@ def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_for
         pin_M_R_forw.off()
         pin_M_R_back.off()
 
-def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocidad,M_R_velocidad ):#todo:usado
+def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion , M_L_velocidad ,M_R_velocidad ):#todo:usado
+    '''Ejecuta la velocidad para los PWM ingresadas, si es que no hay una interrupción ("interrupcion")'''
     if not interrupcion:
         pin_M_L_pwm.duty(M_L_velocidad)
         pin_M_R_pwm.duty(M_R_velocidad)
     else:
         pin_M_L_pwm.duty(0)
         pin_M_R_pwm.duty(0)
-
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_boton_fisico):#todo:usado
-    boton_frenado = pin_boton_frenado.value()
-    sensor_IFR = [0,0,0,0,0]
-    for i in range (5):
-        sensor_IFR[i] = pin_sensor_IFR[i].value()
-    alarma_balanza = pin_alarma_balanza.value()
-    sensor_MG = pin_sensor_MG.value()
-    boton_fisico = pin_boton_fisico.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,boton_fisico;
 
 
 
