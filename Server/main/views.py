@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.utils.html import escapejs
 from main.models import Stock,Peticion
+from carrito.models import Estacion
 from django.http import JsonResponse
 from django.http.response import JsonResponse
 from django.views import View
@@ -15,6 +16,13 @@ def Pedir(request):
         print(i)
         stock = i.decode('utf-8')
         print('-')
+    print('-------------------')
+    estacionesDb = Estacion.objects.all()
+    estaciones = JsonResponse(list(estacionesDb.values()),safe=False)
+    for i in estaciones:
+        print(i)
+        estaciones = i.decode('utf-8')
+        print('-')
     print(stock)
     print(request.user.username)
     if request.user.is_authenticated:
@@ -26,13 +34,17 @@ def Pedir(request):
             # print(request.body.decode('utf-8')) # convierto los bytes a string
             lista = json.loads(request.body.decode('utf-8')) # lo cargo como json
             print(lista)
+            data = request.body.decode('utf-8')
+            lugar = lista[0]
+            lista.pop(0)
             peticion = Peticion(                            # creo una peticion y la envio
                 autor=request.user,
                 estado=1,
-                pedido=request.body.decode('utf-8'))
+                pedido=str(lista).replace('\'','"'),
+                destino = Estacion.objects.get(id=lugar))
             peticion.save()
 
-        return render(request,'User-Pedido-Dev(Ped).html',context={"stock":stock})
+        return render(request,'User-Pedido-Dev(Ped).html',context={"stock":stock,"estaciones":estaciones})
     else: return redirect('login')
 
 def Devol(request):

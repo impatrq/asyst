@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from carrito.models import Estacion
 
 # Create your models here.
 class Stock(models.Model):
@@ -26,10 +27,12 @@ class Peticion(models.Model):
         PENDIENTE = 1
         APROBADA  = 2
         RECHAZADA = 3
+        ACTIVA    = 4
     estado = models.IntegerField(choices=Estado.choices)
     pedido = models.TextField(null=True)
     mensaje = models.TextField(default=None, blank=True, null=True)
     staff =  models.ForeignKey(User,on_delete=models.SET_NULL,default=None, blank=True, null=True,related_name='staff_a_cargo')
+    destino = models.ForeignKey(Estacion,on_delete=models.SET_NULL,default=None,blank=True,null=True,related_name='destino')
 
     def __str__(self):
         return str(self.autor) +" - "+ str(self.Estado.choices[self.estado-1][1]) #+" - "+ str(self.hora)
