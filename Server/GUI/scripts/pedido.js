@@ -95,7 +95,11 @@ const setPeticion = objeto =>{
 const pintarPedido = ()=>{
     panelPedido.innerHTML =""
     // console.log(peticion)
-    Object.values(peticion).forEach(herramienta =>{
+    Object.values(peticion).sort(function (a,b){
+        if (a.nombre > b.nombre){return  1}
+        if (a.nombre < b.nombre){return -1}
+        return 0
+    }).forEach(herramienta =>{
         templatePed.querySelector('.texto-ped-item').textContent = herramienta.nombre
         templatePed.querySelector('i.fas').classList.remove('fa-tools','fa-toolbox','fa-question-circle')
         templatePed.querySelector('i.fas').classList.add(herramienta.clase)
@@ -127,7 +131,8 @@ const accionCantidad = panelPedido.addEventListener('click', (e)=>{
         peticion[parseInt(pedActual.dataset.id)].cantidad--
     }
     if(e.target.classList.contains('eliminar')){
-        const pedActual2 = pedActual.querySelector('.panel-block')
+        const pedActual2 = e.target.parentNode.parentNode.parentNode.parentNode
+        // console.log(pedActual)
         const idBorrada = peticion[pedActual2.dataset.id].id
         delete (peticion[pedActual2.dataset.id])
         // console.log(peticion)
