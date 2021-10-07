@@ -1,7 +1,7 @@
 import machine, time
 from machine import Pin
-import requests
-import json
+import urequests
+import ujson
 
 """
 1-gira mucho a la izquierda
@@ -15,7 +15,9 @@ import json
 """
 class URLs:
     def __init__(self):
-        self.url ='http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
+        self.get  = 'http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
+        self.post = ''
+        matricula = 420
 URL = URLs()
 
 def p(velocidad):
@@ -27,7 +29,7 @@ def p(velocidad):
         p.append(aux1)
     return p
 
-def actualizar_valores(pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
+def actualizar_valores(pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2,pin_confirmacion):#todo:usado
     '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
     sensor_IFR = [0,0,0,0]
     for i in range (4):
@@ -35,7 +37,8 @@ def actualizar_valores(pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sen
     alarma_balanza = pin_alarma_balanza.value()
     sensor_MG = pin_sensor_MG.value()
     sensor_MG_2 = pin_sensor_MG_2.value()
-    return sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
+    confirmacion = pin_confirmacion.value()
+    return sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2, confirmacion;
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     '''Devuelve una dirección en base a los sensores IFR'''
@@ -62,22 +65,23 @@ def frenado(sensor_US):#todo:usado
     if distancia>=100: return 0;
     else: return 1;
 
-def get_from_server(server_dict):
+def get_from_server():
     '''Obtiene un nuevo server_dict['destino'] y entrega/devolución del servidor'''
-    resp = requests.get(URL.get)
-    server_dict_aux = json.loads(resp.content)
-    server_dict['destino'] = server_dict_aux[0]['destino']
-    server_dict['entrega'] = server_dict_aux[0]['entrega']
-    return server_dict
+    #matricula, rumbo, ocupado, viajando, idavuelta, perdido
+    info_dict = {}
+    resp = urequests.get(URL.get)
+    server_dict = ujson.loads(resp)
+    destino = server_dict['rumbo']
+    return destino
 
-def send_to_server(carrito_dict):
-    '''Envía la posición actual del carrito y si está perdido al servidor'''
-    with open(URL.carrito_json,'w') as file: #Pregunto si está perdido
-        json.dump(carrito_dict, file)
-    
-    with open(URL.carrito_json,'r') as file:
-        new_dict = json.load(file)
-    requests.post('http://127.0.0.1:8000', json=new_dict)
+def send_to_server(data:dict):
+    '''Envía la información ingresada al servidor'''
+    #nombres = ['ocupado', 'viajando', 'idavuelta','perdido','pos_actual']
+    for i in data:
+        key = i
+    data = str(URL.matricula) + '-' + str(key) + '-' + str(data[key])
+    resp = urequests.post(URL.post, data=data)
+    resp.close()
 
 class HCSR04:
     """
@@ -149,7 +153,6 @@ class HCSR04:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
-
 def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#todo:usado
 
     if server_dict['destino'] == destinoPanol:
@@ -167,7 +170,7 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             #print("Llegamos al Pañol")
             server_dict['destino'] = None #Reseteo La variable de destino para esperar uno nuevo
             carrito_dict_final = [carrito_dict]
-            requests.post(URL.send, json=carrito_dict_final)
+            urequests.post(URL.send, json=carrito_dict_final)
             return carrito_dict, 6, countIman, server_dict,False
 
     else:
@@ -184,7 +187,7 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             server_dict['destino'] = destinoPanol
             #carrito_dict['posicion_actual']= carrito_dict['posicion_actual']
             carrito_dict_final = [carrito_dict]
-            requests.post(URL.send, json=carrito_dict_final)
+            urequests.post(URL.send, json=carrito_dict_final)
             return carrito_dict, 6, countIman, server_dict,False
             
 def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
