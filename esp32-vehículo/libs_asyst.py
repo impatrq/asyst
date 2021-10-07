@@ -15,12 +15,10 @@ import json
 """
 class URLs:
     def __init__(self):
-        self.get ='http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
-        self.send = 'http://127.0.0.1:8000'
-        self.carrito_json = 'prueba_read.json'
+        self.url ='http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
 URL = URLs()
 
-def potencia(velocidad):
+def p(velocidad):
     '''Devuelve una lista en la que cada posición corresponde a un porcentaje de la velocidad ingresada'''
     velocidad = int(velocidad)
     p = []
@@ -29,16 +27,15 @@ def potencia(velocidad):
         p.append(aux1)
     return p
 
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
-    '''Actualiza los valores del botón de frenado, los sensores IFR, la alarma de balanza y sensores magnéticos'''
-    boton_frenado = pin_boton_frenado.value()
+def actualizar_valores(pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
+    '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
     sensor_IFR = [0,0,0,0]
     for i in range (4):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
     alarma_balanza = pin_alarma_balanza.value()
     sensor_MG = pin_sensor_MG.value()
     sensor_MG_2 = pin_sensor_MG_2.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
+    return sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     '''Devuelve una dirección en base a los sensores IFR'''
@@ -60,12 +57,10 @@ def crear_posicion(carrito_dict):#*Función auxiliar opcional
         carrito_dict['posicion_actual'].append(-1)
     return destinoPanol, carrito_dict['posicion_actual'];#Esto se puede modificar
 
-def frenado_emergencia(boton_frenado, sensor_US):#todo:usado
+def frenado(sensor_US):#todo:usado
     distancia = sensor_US.distance_cm() #Recordar crear el objeto de sensor_US
-    if distancia>=100 and boton_frenado==0:
-        return 0;
-    else: 
-        return 1;
+    if distancia>=100: return 0;
+    else: return 1;
 
 def get_from_server(server_dict):
     '''Obtiene un nuevo server_dict['destino'] y entrega/devolución del servidor'''
@@ -192,8 +187,13 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             requests.post(URL.send, json=carrito_dict_final)
             return carrito_dict, 6, countIman, server_dict,False
             
-def regular_direccion(direccion, p1,p2,p3,p4,p5): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
+def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
     '''Devuelve una configuración para las ruedas en base a la dirección y los porcentajes de potencia ingresados'''    
+    p1 = 0
+    p2 = 0
+    p3 = 0
+    p4 = 0
+    p5 = 0
     if      direccion == 1: return  1,0,p1, 1,0,p3 #Acá se usaría el comando ".duty()" para regular la velocidad
     elif    direccion == 2: return  1,0,p2, 1,0,p3
     elif    direccion == 3: return  1,0,p4, 1,0,p4
