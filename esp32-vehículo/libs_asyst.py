@@ -29,16 +29,27 @@ def p(velocidad):
         p.append(aux1)
     return p
 
-def actualizar_valores(pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2,pin_confirmacion):#todo:usado
+def actualizar_valores(pin_sensor_IFR=0, pin_alarma_balanza=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_confirmacion=0):#todo:usado
     '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
-    sensor_IFR = [0,0,0,0]
-    for i in range (4):
-        sensor_IFR[i] = pin_sensor_IFR[i].value()
-    alarma_balanza = pin_alarma_balanza.value()
-    sensor_MG = pin_sensor_MG.value()
-    sensor_MG_2 = pin_sensor_MG_2.value()
-    confirmacion = pin_confirmacion.value()
-    return sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2, confirmacion;
+    valores = []
+    if pin_sensor_IFR:
+        sensor_IFR = [0,0,0,0]
+        for i in range (4):
+            sensor_IFR[i] = pin_sensor_IFR[i].value()
+        valores.append(sensor_IFR)
+    if pin_alarma_balanza: 
+        alarma_balanza = pin_alarma_balanza.value()
+        valores.append(alarma_balanza)
+    if pin_sensor_MG: 
+        sensor_MG = pin_sensor_MG.value()
+        valores.append(sensor_MG)
+    if pin_sensor_MG_2: 
+        sensor_MG_2 = pin_sensor_MG_2.value()
+        valores.append(sensor_MG_2)
+    if pin_confirmacion: 
+        confirmacion = pin_confirmacion.value()
+        valores.append(confirmacion)
+    return valores
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     '''Devuelve una dirección en base a los sensores IFR'''
@@ -192,19 +203,20 @@ def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#to
             
 def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
     '''Devuelve una configuración para las ruedas en base a la dirección y los porcentajes de potencia ingresados'''    
-    p1 = 0
-    p2 = 0
-    p3 = 0
-    p4 = 0
-    p5 = 0
-    if      direccion == 1: return  1,0,p1, 1,0,p3 #Acá se usaría el comando ".duty()" para regular la velocidad
-    elif    direccion == 2: return  1,0,p2, 1,0,p3
-    elif    direccion == 3: return  1,0,p4, 1,0,p4
-    elif    direccion == 4: return  1,0,p3, 1,0,p2
-    elif    direccion == 5: return  1,0,p3, 1,0,p1
-    elif    direccion == 6: return  0,1,p5, 1,0,p5
-    elif    direccion == 7: return  0,1,p5, 1,0,p5
-    elif    direccion == 9: return  1,0,p5, 0,1,p5
+    rest = 22
+    p1 = 40
+    p2 = 60
+    p3 = 75
+    p4 = 80
+    p5 = 40
+    if      direccion == 1: return  1,0,p1-rest, 1,0,p3 
+    elif    direccion == 2: return  1,0,p2-rest, 1,0,p3
+    elif    direccion == 3: return  1,0,p4-rest, 1,0,p4
+    elif    direccion == 4: return  1,0,p3-rest, 1,0,p2
+    elif    direccion == 5: return  1,0,p3-rest, 1,0,p1
+    elif    direccion == 6: return  0,1,p5-rest, 1,0,p5
+    elif    direccion == 7: return  0,1,p5-rest, 1,0,p5
+    elif    direccion == 9: return  1,0,p5-rest, 0,1,p5
     else:   return 0,0,0,0,0,0; #l_forw, l_back, l_velocidad, r_forw, r_back, r_velocidad
 
 def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_forw,pin_M_R_back,R_forw,R_back):#todo:usado
