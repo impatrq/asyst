@@ -80,9 +80,13 @@ def get_from_server():
     '''Obtiene un nuevo server_dict['destino'] y entrega/devolución del servidor'''
     #matricula, rumbo, ocupado, viajando, idavuelta, perdido
     info_dict = {}
-    resp = urequests.get(URL.get)
+    resp = urequests.get(URL.get).content
+    resp=resp.decode("utf-8")
+    print(resp)
     server_dict = ujson.loads(resp)
-    destino = server_dict['rumbo']
+    destino = server_dict['rumbo'].split(",")
+    for i in range(len(destino)):
+        destino[i] = int(destino[i])
     return destino
 
 def send_to_server(data:dict):
@@ -164,42 +168,41 @@ class HCSR04:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
-def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#todo:usado
+def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual):#todo:usado
 
-    if server_dict['destino'] == destinoPanol:
+    if destino == destinoPanol:
         countIman -= 1
-        carrito_dict['posicion_actual'][0] = countIman
-        if (countIman > server_dict['destino'][0]) and (carrito_dict['posicion_actual'] != server_dict['destino']):
-            if      carrito_dict['posicion_actual'][countIman] == 7: auxDireccion = 9
-            elif    carrito_dict['posicion_actual'][countIman] == 9: auxDireccion = 7
+        posicion_actual[0] = countIman
+         
+        if (countIman > destino[0]) and (posicion_actual != destino):
+            if      posicion_actual[countIman] == 7: auxDireccion = 9
+            elif    posicion_actual[countIman] == 9: auxDireccion = 7
             else:   auxDireccion = 3
-            carrito_dict['posicion_actual'][countIman] = 0
+            posicion_actual[countIman] = 0
             if auxDireccion==9 or auxDireccion==7: delay = True
             else: delay=False
-            return carrito_dict, auxDireccion, countIman, server_dict, delay
-        elif carrito_dict['posicion_actual'] == server_dict['destino']: 
+            return destino, auxDireccion, countIman,posicion_actual, delay
+        elif posicion_actual == destino: 
             #print("Llegamos al Pañol")
-            server_dict['destino'] = None #Reseteo La variable de destino para esperar uno nuevo
-            carrito_dict_final = [carrito_dict]
-            urequests.post(URL.send, json=carrito_dict_final)
-            return carrito_dict, 6, countIman, server_dict,False
+            destino = None #Reseteo La variable de destino para esperar uno nuevo
+            
+            return destino, 6, countIman, posicion_actual,False
 
     else:
         countIman += 1
-        carrito_dict['posicion_actual'][0] = countIman
-        if (countIman < server_dict['destino'][0]) and (carrito_dict['posicion_actual'] != server_dict['destino']):  
-            carrito_dict['posicion_actual'][countIman] = server_dict['destino'][countIman]
-            auxDireccion = int(carrito_dict['posicion_actual'][countIman])
+        posicion_actual[0] = countIman
+        if (countIman < destino[0]) and (posicion_actual != destino):  
+            posicion_actual[countIman] = destino[countIman]
+            auxDireccion = int(posicion_actual[countIman])
             if auxDireccion==9 or auxDireccion==7: delay = True
             else: delay=False
-            return carrito_dict, auxDireccion, countIman, server_dict,delay
+            return destino, auxDireccion, countIman, posicion_actual,delay
         else: 
             #print("Llegamos a Destino")
-            server_dict['destino'] = destinoPanol
-            #carrito_dict['posicion_actual']= carrito_dict['posicion_actual']
-            carrito_dict_final = [carrito_dict]
-            urequests.post(URL.send, json=carrito_dict_final)
-            return carrito_dict, 6, countIman, server_dict,False
+            destino = destinoPanol
+            send_to_server({'viajando':False})
+            send_to_server({'iavuelta':True})
+            return destino, 6, countIman, posicion_actual,False
             
 def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
     '''Devuelve una configuración para las ruedas en base a la dirección y los porcentajes de potencia ingresados'''    
