@@ -13,7 +13,7 @@ class Estacion(models.Model):
 
 class Carrito(models.Model):
     matricula = models.IntegerField()
-    rumbo = models.OneToOneField(Estacion,on_delete=models.SET_NULL,null=True,blank=True)
+    rumbo = models.ForeignKey(Estacion,on_delete=models.SET_NULL,null=True,blank=True)
     ocupado = models.BooleanField()
     viajando = models.BooleanField()
     idavuelta = models.BooleanField()
