@@ -1,55 +1,3 @@
-var dataGet = ''
-var enviar = false
-
-async function getCarritos(){
-    var request = new XMLHttpRequest();
-    request.open('GET', '/carrito/?matricula=0', true);
-
-    request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-        // Success!
-        dataGet = JSON.parse(request.responseText);
-        console.log(dataGet)
-    } else {
-        // We reached our target server, but it returned an error
-
-    }
-    };
-
-    request.onerror = function() {
-    // There was a connection error of some sort
-    };
-    request.send();
-    return dataGet
-}
-
-function postOcupar(matricula){
-    var http = new XMLHttpRequest();
-    http.open("POST", '/carrito/', true);
-    http.send(`${matricula}-ocupado-True`);
-
-}
-async function ocuparCarrito(){
-    var encontrado = false;
-    var dato_carro = getCarritos();
-    console.log(dato_carro)
-    setTimeout(function(){
-    for (let carrito of dataGet){
-       if (carrito.ocupado == false){
-           mensajeOcupar(true,carrito.matricula);
-           postOcupar(carrito.matricula);
-           encontrado = true;
-           enviar = true
-           return true;
-       }
-    }
-    if (!encontrado){
-        mensajeOcupar(false);
-        enviar = false
-        return false;
-    }},500)
-    return enviar
-}
 
 
 function getCookie(name) {
@@ -69,17 +17,8 @@ function getCookie(name) {
 }
 
 function prepararPOST(id,accion,msg){
-    if(accion=='rechazo'){enviar=true}
     let url ='/staff/pedidos/';
-    if (accion == 'apruebo'){
-        data = {'id':parseInt(id),'msg':msg,'estado':2}
-        var respuesta = ocuparCarrito().then(function(){
-            if (respuesta){enviar = true}            
-            console.log('dentri del then',enviar)
-        })
-    }
-    if(!enviar){return}
-    else{
+    if (accion == 'apruebo'){data = {'id':parseInt(id),'msg':msg,'estado':2}}
     if (accion == 'rechazo'){data = {'id':parseInt(id),'msg':msg,'estado':3}}
     const csrftoken = getCookie('csrftoken');
     console.log(csrftoken)
@@ -95,8 +34,5 @@ function prepararPOST(id,accion,msg){
     }
     // console.log(peticionFinal)
     http.send(JSON.stringify(data));
-    //setTimeout(() => {  location.reload(); }, 200);
-    console.log('RECARGA')  }
+    setTimeout(() => {  location.reload(); }, 200);
 }
-
-// function sendPost
