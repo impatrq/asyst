@@ -10,6 +10,8 @@ const modal = document.getElementById('modal-more')
 const botonCerrar = document.getElementById('boton-cerrar')
 const modalRechazo = document.getElementById('modal-reject')
 const botonCerrar2 = document.getElementById('boton-cerrar-2')
+const modalAccept = document.getElementById('modal-accept')
+const botonAccept = document.getElementById('boton-accept')
 
 
 const fetchData = async () => {
@@ -147,3 +149,25 @@ modalRechazo.querySelector('.button.is-danger').addEventListener('click',functio
     // console.log(modalRechazo.querySelector('.textarea').value)
 })
 
+
+function mensajeOcupar(estado,matricula){
+    if (estado == true){
+        // alert(`Cargue el pedido en el la matricula ${matricula}`)
+        modalAccept.querySelector('#msg-accept').innerHTML = `Cargue el pedido en el la matricula ${matricula}`
+        botonAccept.dataset.id = 1
+    }
+    else{
+        // alert('espere a que se desocupe la flota')
+        modalAccept.querySelector('#msg-accept').innerHTML = 'espere a que se desocupe la flota'
+
+    }
+    modalAccept.classList.add('is-active')
+}
+botonAccept.addEventListener('click',function(){
+    if(botonAccept.dataset.id==1){
+        location.reload();
+    }
+    else{
+        modalAccept.classList.remove('is-active')
+    }
+})

@@ -78,6 +78,22 @@
     </footer>
   </div>
 </div>
+
+<div class="modal" id='modal-accept'>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Flota</p>
+    </header>
+    <section class="modal-card-body">
+      <p class="has-text-centered" id='msg-accept'>Escriba la razon del rechazo:</p>
+      <p class="has-text-danger"><b id='error'></b></p>
+    </section>
+    <footer class="modal-card-foot is-justify-content-space-around">
+      <button class="button is-success" id='boton-accept'>Aceptar</button>
+    </footer>
+  </div>
+</div>
 {%endblock body%}
 {%block js%}
 <script src="{% static 'scripts/Staff-pedidos.js' %}"></script>
