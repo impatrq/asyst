@@ -31,5 +31,23 @@ def carrito(request):
             return HttpResponse('ERROR, ingrese matricula')
 
     if request.method == 'POST':
+        comandos = ('viajando','idavuelta','perdido','reset')
+        data = request.body.decode('utf-8').split('-')
+        carrito_actual = Carrito.objects.get(matricula=data[0])
+        if data[2]=='True':
+            data_bool = True
+        elif data[2]=='False':
+            data_bool = False
+
+        if   data[1]==comandos[0]:carrito_actual.viajando = data_bool
+        elif data[1]==comandos[1]:carrito_actual.idavuelta = data_bool
+        elif data[1]==comandos[2]:carrito_actual.perdido = data_bool
+        elif data[1]==comandos[3]:
+            carrito_actual.viajando = False
+            carrito_actual.idavuelta = False
+            carrito_actual.perdido = False
+            carrito_actual.ocupado = False
+            carrito_actual.rumbo = None
+        carrito_actual.save()
         print(request.body.decode('utf-8'))
-        return redirect('carrito')
+        return HttpResponse('OK')
