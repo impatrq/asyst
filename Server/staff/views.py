@@ -1,3 +1,4 @@
+from django.db.models.expressions import F
 from django.shortcuts import redirect, render
 from django.utils.html import escapejs
 from main.models import Stock,Peticion
@@ -29,7 +30,9 @@ def pedidos(request):
     carritosDb = Carrito.objects.all()
     carritos = JsonResponse(list(carritosDb.values()),safe=False)
     for i in carritos: carritos = i.decode('utf-8')
+    context = {'pendientes':pendientes,'usuarios':usuarios,'carritos':carritos}
     if request.method == 'POST':
+        '''
         req = json.loads(request.body.decode('utf-8'))
         print(req)
         pedido = Peticion.objects.get(id=req['id'])
@@ -37,8 +40,46 @@ def pedidos(request):
         pedido.estado  = req['estado']
         pedido.staff   = request.user
         pedido.save()
+        '''
+        context['post'] = True
+        print(request.body)
+        print(f'ID= {request.POST.get("id")}')
+        print(f'STATUS= {request.POST.get("status")}')
+        print(f'MSG= {request.POST.get("msg")}')
+        # agarro los carritos libres
+        carritosLibres = Carrito.objects.filter(ocupado=False)
+        vacio = False
+        if len(carritosLibres) == 0: vacio = True
 
-    return render(request,'Staff-pedidos.html',context={'pendientes':pendientes,'usuarios':usuarios,'carritos':carritos})
+        if (int(request.POST.get('status'))==2 and vacio):
+            print('ERROR, Aprobacion sin flota')
+            context['matricula'] = 0
+            context['reject'] = False
+            return render(request,'Staff-pedidos.html',context=context)
+        else:
+            # print(carritosLibres[0])
+            pedido = Peticion.objects.get(id=request.POST.get('id'))
+            if pedido.estado != 1:
+                print('ERROR, modificando no pendiente','-'*20)
+                return redirect('pedidos')
+            pedido.mensaje = request.POST.get('msg')
+            pedido.estado = request.POST.get('status')
+            pedido.staff = request.user
+            pedido.save()
+            if int(request.POST.get('status')) == 2:
+                carritosLibres[0].ocupado = True
+                carritosLibres[0].rumbo = pedido.destino
+                context['matricula'] = carritosLibres[0].matricula
+                carritosLibres[0].save()
+                context['reject'] = False
+                return render(request,'Staff-pedidos.html',context=context)
+
+            elif int(request.POST.get('status')==3):
+                context['matricula'] = 0
+                context['reject'] = True
+                return render(request,'Staff-pedidos.html',context=context)
+        # print(context['matricula'])
+    return render(request,'Staff-pedidos.html',context=context)
 
 
 #--------------------------------------------STOCK---------------------------------------------------
