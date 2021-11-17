@@ -43,5 +43,10 @@ function actualizar(estado){
         items[0].querySelector('i.fa').classList.remove('fa-check')
         items[0].querySelector('i.fa').classList.add('fa-times')
     } 
+
+// SI EL ESTADO ES 4 TENGO QUE MOSTRAR EL MSG DE RECHAZO
 }
 
+
+actualizar(document.getElementById('estado-db').value)
+// setInterval(()=>{location.reload();console.log('a')},1000)

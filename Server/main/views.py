@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.utils.html import escapejs
-from main.models import Stock,Peticion
+from main.models import Stock,Peticion, Activo
 from carrito.models import Estacion
 from django.http import JsonResponse
 from django.http.response import JsonResponse
@@ -42,7 +42,11 @@ def Pedir(request):
                 estado=1,
                 pedido=str(lista).replace('\'','"'),
                 destino = Estacion.objects.get(id=lugar))
+            activo = Activo.objects.get(usuario=request.user)
+            activo.pedido = peticion
+            activo.carrito = None
             peticion.save()
+            activo.save()
 
         return render(request,'User-Pedido-Dev(Ped).html',context={"stock":stock,"estaciones":estaciones})
     else: return redirect('login')
@@ -51,14 +55,27 @@ def Devol(request):
     if request.user.is_authenticated:
         if request.user.is_staff:
             return redirect('/admin')
-        pedido = Peticion.objects.filter(estado=1,autor= request.user)
-        pedido2 = pedido[len(pedido)-1]
+        activo = Activo.objects.get(usuario=request.user)
+        estado = 0
+        if activo.pedido.estado == 2:
+            estado = 1
+            if activo.carrito.viajando == True:
+                estado = 2
+                if activo.carrito.idavuelta == True:
+                    estado = 3
+        elif activo.pedido.estado == 3:
+            estado = 4
+        
+        print(activo.pedido)
+        pedido2 = activo.pedido
+        # print(f'{estado}:{activo.carrito.matricula}')
+
         if request.method == 'POST':
             pedido2.mensaje = request.body.decode('utf-8')
             print(request.body.decode('utf-8'))
             pedido2.save()
         # print(pedido)
-        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido2})
+        return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido2,'estado':estado})
     else: return redirect('login')
 
 

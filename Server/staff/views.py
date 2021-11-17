@@ -1,7 +1,7 @@
 from django.db.models.expressions import F
 from django.shortcuts import redirect, render
 from django.utils.html import escapejs
-from main.models import Stock,Peticion
+from main.models import Activo, Stock,Peticion
 from django.http import JsonResponse
 from django.http.response import JsonResponse, HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
@@ -70,6 +70,9 @@ def pedidos(request):
                 carritosLibres[0].ocupado = True
                 carritosLibres[0].rumbo = pedido.destino
                 context['matricula'] = carritosLibres[0].matricula
+                activo = Activo.objects.get(usuario=pedido.autor)
+                activo.carrito = carritosLibres[0]
+                activo.save()
                 carritosLibres[0].save()
                 context['reject'] = False
                 return render(request,'Staff-pedidos.html',context=context)
