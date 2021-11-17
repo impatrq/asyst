@@ -46,7 +46,8 @@ botonEnviar.addEventListener('click', function (){
     http.onreadystatechange = function() {
         if(http.readyState == 4 && http.status == 200) { 
         //aqui obtienes la respuesta de tu peticion
-        alert(peticion);
+        // alert(peticion);
+        location.reload()
         }
     }
     console.log(JSON.stringify(peticionFinal))
