@@ -1,5 +1,7 @@
 import time
 from machine import Pin
+import machine
+import network
 import urequests
 import ujson
 
@@ -13,12 +15,33 @@ import ujson
 9-gira 90° a la derecha
 8-PERDIDO
 """
+
 class URLs:
     def __init__(self,ipGet,ipPost,matricula):
         self.get  = ipGet#Cambiar por la url y el nombre del archivo a buscar
         self.post = ipPost
         self.matricula = matricula
-URL = URLs()
+    
+    def get_from_server(self):
+        '''Obtiene un nuevo destino del servidor'''
+        #matricula, rumbo, ocupado, viajando, idavuelta, perdido
+        resp = urequests.get(self.get).content
+        resp=resp.decode("utf-8")
+        #print(resp)
+        server_dict = ujson.loads(resp)
+        destino = server_dict['rumbo'].split(",")
+        for i in range(len(destino)):
+            destino[i] = int(destino[i])
+        return destino
+    
+    def send_to_server(self,data:dict):
+        '''Envía la información ingresada al servidor'''
+        #nombres = ['ocupado', 'viajando', 'idavuelta','perdido','pos_actual','reset']
+        for i in data:
+            key = i
+        data = str(self.matricula) + '-' + str(key) + '-' + str(data[key])
+        resp = urequests.post(self.post, data=data)
+        resp.close()
 
 def actualizar_valores(pin_sensor_IFR=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_confirmacion=0):#todo:usado
     '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
@@ -45,27 +68,7 @@ def frenado(sensor_US):
     if distancia>=100: return 0;
     else: return 1;
 
-def get_from_server():
-    '''Obtiene un nuevo server_dict['destino'] y entrega/devolución del servidor'''
-    #matricula, rumbo, ocupado, viajando, idavuelta, perdido
-    info_dict = {}
-    resp = urequests.get(URL.get).content
-    resp=resp.decode("utf-8")
-    #print(resp)
-    server_dict = ujson.loads(resp)
-    destino = server_dict['rumbo'].split(",")
-    for i in range(len(destino)):
-        destino[i] = int(destino[i])
-    return destino
 
-def send_to_server(data:dict):
-    '''Envía la información ingresada al servidor'''
-    #nombres = ['ocupado', 'viajando', 'idavuelta','perdido','pos_actual']
-    for i in data:
-        key = i
-    data = str(URL.matricula) + '-' + str(key) + '-' + str(data[key])
-    resp = urequests.post(URL.post, data=data)
-    resp.close()
 
 class HCSR04:
     """
@@ -137,7 +140,8 @@ class HCSR04:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
-def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual):#todo:usado
+    
+def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual, URL):#todo:usado
 
     if destino == destinoPanol:
         countIman -= 1
@@ -152,9 +156,9 @@ def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual):#tod
             else: delay=False
             return destino, auxDireccion, countIman,posicion_actual, delay,1
         elif posicion_actual == destino: 
-            #print("Llegamos al Pañol")
+            #print("Llegamos al Pañol")#!----------------
             destino = None #Reseteo La variable de destino para esperar uno nuevo
-            send_to_server({'reset':True})
+            URL.send_to_server({'reset':True})
             return destino, 6, countIman, posicion_actual,False,0
 
     else:
@@ -167,10 +171,10 @@ def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual):#tod
             else: delay=False
             return destino, auxDireccion, countIman, posicion_actual,delay,1
         else: 
-            #print("Llegamos a Destino")
+            #print("Llegamos a Destino")#!----------------
             destino = destinoPanol
-            send_to_server({'viajando':False})
-            send_to_server({'idavuelta':True})
+            URL.send_to_server({'viajando':False})
+            URL.send_to_server({'idavuelta':True})
             return destino, 6, countIman, posicion_actual,False,1
             
 def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
@@ -220,6 +224,3 @@ def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion , M_L_veloci
     else:
         pin_M_L_pwm.duty(0)
         pin_M_R_pwm.duty(0)
-
-
-
