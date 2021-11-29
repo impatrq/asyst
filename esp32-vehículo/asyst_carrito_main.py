@@ -37,9 +37,9 @@ pin_confirmacion  = Pin(18, Pin.IN, Pin.PULL_DOWN)
 pin_sensor_MG     = Pin(21, Pin.IN)
 pin_sensor_MG_2   = Pin(4, Pin.IN)
 
-US_trigger_pin    = 0
-US_echo_pin       = 15
-sensor_US = lib.HCSR04 (US_trigger_pin, US_echo_pin)
+#US_trigger_pin    = 0
+#US_echo_pin       = 15
+#sensor_US = lib.HCSR04 (US_trigger_pin, US_echo_pin)
 
 
 #----------------Variables y objetos a utilizar---------------------
@@ -98,7 +98,7 @@ while 1:
             destino, direccion, countIman, posicion_actual, delay,start= lib.reconocimiento_sector(destino,countIman,destinoPanol,posicion_actual,URL)
             print(destino, posicion_actual)
         if esperandoMG2: direccion = 3
-        interrupcion = lib.frenado(sensor_US)
+        #interrupcion = lib.frenado(sensor_US)
         M_L_forw,M_L_back, M_L_pwm,M_R_forw,M_R_back, M_R_pwm = lib.regular_direccion(direccion)
         lib.regular_sentido_motores(pin_M_L_forw,pin_M_L_back,M_L_forw,M_L_back,  pin_M_R_forw,pin_M_L_back,M_R_forw,M_R_back)
 
