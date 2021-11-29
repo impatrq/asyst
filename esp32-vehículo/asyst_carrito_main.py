@@ -11,7 +11,7 @@ sta_if.active(True)                       # activa la interfaz STA del ESP32
 sta_if.disconnect()
 if sta_if.isconnected(): sta_if.disconnect()
 print(sta_if.scan())
-sta_if.connect("TeleCentro-d31c","Juanmi22")    # inicia la conexión con el AP
+sta_if.connect("Avionica 2B","Atlantida2020")    # inicia la conexión con el AP
 while not sta_if.isconnected():
     time.sleep(0.5)
 print("conectado:", sta_if.isconnected())
