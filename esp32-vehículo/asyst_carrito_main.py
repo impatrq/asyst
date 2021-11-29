@@ -10,11 +10,11 @@ sta_if = network.WLAN(network.STA_IF);    # instancia el objeto -sta_if- para co
 sta_if.active(True)                       # activa la interfaz STA del ESP32
 sta_if.disconnect()
 if sta_if.isconnected(): sta_if.disconnect()
-print(sta_if.scan())
+#print(sta_if.scan())
 sta_if.connect("Avionica 2B","Atlantida2020")    # inicia la conexión con el AP
 while not sta_if.isconnected():
     time.sleep(0.5)
-print("conectado:", sta_if.isconnected())
+#print("conectado:", sta_if.isconnected())
 
 #-----------------------Pines a utilizar---------------------------
 #No se pueden usar: 6 al 11, 20, 23, 24, 28 a 31, 37, 38 
@@ -68,7 +68,7 @@ esperandoMG2 = False
 
 while 1:
     #print("final de recorrido")#!-----------------
-    print(pin_confirmacion.value())
+    #print(pin_confirmacion.value())
     time.sleep(0.1)
     #lib.regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm,1,M_L_pwm,M_R_pwm)#*para asegurarnos que empiece frenado
     while pin_confirmacion.value()==0 and start==0:
@@ -97,7 +97,7 @@ while 1:
         #if sensor_MG_2 and esperandoMG2:
             #esperandoMG2 = False
             destino, direccion, countIman, posicion_actual, delay,start= lib.reconocimiento_sector(destino,countIman,destinoPanol,posicion_actual,URL)
-            print(destino, posicion_actual)
+            #print(destino, posicion_actual)
             time.sleep(1)#borrar cuando esten ambos sensores
         #interrupcion = lib.frenado(sensor_US)
         M_L_forw,M_L_back, M_L_pwm,M_R_forw,M_R_back, M_R_pwm = lib.regular_direccion(direccion)
