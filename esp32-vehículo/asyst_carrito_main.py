@@ -19,11 +19,11 @@ print("conectado:", sta_if.isconnected())
 #-----------------------Pines a utilizar---------------------------
 #No se pueden usar: 6 al 11, 20, 23, 24, 28 a 31, 37, 38 
 
-pin_sensor_IFR    = [0,0,0,0,0] #4,5,12,13,14
+pin_sensor_IFR    = [0,0,0] #4,5,12,13,14
 pin_sensor_IFR[0] = Pin(34, Pin.IN)
 pin_sensor_IFR[1] = Pin(35, Pin.IN)
 pin_sensor_IFR[2] = Pin(32, Pin.IN)
-pin_sensor_IFR[3] = Pin(33, Pin.IN)
+#pin_sensor_IFR[3] = Pin(33, Pin.IN)
 
 freq_pwm = 300
 pin_M_L_forw      = Pin(27, Pin.OUT)
@@ -57,7 +57,7 @@ M_R_back=0
 M_R_pwm=0
 #confirmacion = 0
 start = 0
-sensor_IFR=[0,0,0,0]
+sensor_IFR=[0,0,0]
 interrupcion = 0
 delay = False
 esperandoMG2 = False
