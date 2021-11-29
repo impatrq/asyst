@@ -92,9 +92,9 @@ while 1:
         direccion = lib.corregir_rumbo(sensor_IFR)
         
         if sensor_MG: 
-            esperandoMG2=True
-        if sensor_MG_2 and esperandoMG2:
-            esperandoMG2 = False
+            #esperandoMG2=True
+        #if sensor_MG_2 and esperandoMG2:
+            #esperandoMG2 = False
             destino, direccion, countIman, posicion_actual, delay,start= lib.reconocimiento_sector(destino,countIman,destinoPanol,posicion_actual,URL)
             print(destino, posicion_actual)
         if esperandoMG2: direccion = 3
