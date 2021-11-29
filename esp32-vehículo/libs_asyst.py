@@ -17,6 +17,7 @@ import ujson
 """
 
 class URLs:
+    '''clase cuyos metodos permiten comunicarse con el servidor'''
     def __init__(self,ipGet,ipPost,matricula):
         self.get  = ipGet#Cambiar por la url y el nombre del archivo a buscar
         self.post = ipPost
@@ -44,7 +45,7 @@ class URLs:
         resp.close()
 
 def actualizar_valores(pin_sensor_IFR=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_confirmacion=0):#todo:usado
-    '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
+    '''Actualiza los valores de los sensores IFR, boton de confirmación y sensores magnéticos'''
     sensor_IFR = [0,0,0]
     for i in range (3):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
@@ -66,8 +67,8 @@ def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de 
 
 def frenado(sensor_US):
     distancia = sensor_US.distance_cm() #Recordar crear el objeto de sensor_US
-    if distancia>=100: return 0;
-    else: return 1;
+    if distancia>=100: return 0
+    else: return 1
 
 
 
@@ -143,7 +144,7 @@ class HCSR04:
         return cms
     
 def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual, URL):#todo:usado
-
+    ''' Función que devuelve la posicion actual del vehiculo en base a la deteccion de imanes. Tambien cambia el rumbo del vehiculo de ser necesario'''
     if destino == destinoPanol:
         countIman -= 1
         posicion_actual[0] = countIman
@@ -178,8 +179,8 @@ def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual, URL)
             URL.send_to_server({'idavuelta':True})
             return destino, 6, countIman, posicion_actual,False,1
             
-def regular_direccion(direccion): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
-    '''Devuelve una configuración para las ruedas en base a la dirección y los porcentajes de potencia ingresados'''    
+def regular_direccion(direccion): #todo:usado            
+    '''Devuelve una configuración para las ruedas en base a la dirección ingresada'''    
     p1 = 150
     p2 = 200
     p3 = 250
