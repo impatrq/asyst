@@ -54,14 +54,15 @@ def actualizar_valores(pin_sensor_IFR=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_c
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
     '''Devuelve una dirección en base a los sensores IFR'''
-    if   aux==[0,0,0,1]: return 5; #gira mucho a la derecha
-    elif aux==[0,0,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,1,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,1,1,0]: return 3; #linea recta
-    elif aux==[1,1,1,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,1,0,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,0,0,0]: return 1; #gira un poco a la izquierda
+    if   aux==[0,0,1]: return 5; #gira mucho a la derecha
+    #elif aux==[0,0,1]: return 4; #gira un poco a la derecha
+    elif aux==[0,1,1]: return 4; #gira un poco a la derecha
+    elif aux==[0,1,0]: return 3; #linea recta
+    elif aux==[1,1,0]: return 2; #gira un poco a la izquierda
+    #elif aux==[1,1,0]: return 2; #gira un poco a la izquierda
+    elif aux==[1,0,0]: return 1; #gira un poco a la izquierda
     else: return 8; #Perdido D:
+
 
 def frenado(sensor_US):
     distancia = sensor_US.distance_cm() #Recordar crear el objeto de sensor_US
