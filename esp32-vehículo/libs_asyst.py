@@ -45,8 +45,8 @@ class URLs:
 
 def actualizar_valores(pin_sensor_IFR=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_confirmacion=0):#todo:usado
     '''Actualiza los valores de los sensores IFR, la alarma de balanza y sensores magnéticos'''
-    sensor_IFR = [0,0,0,0]
-    for i in range (4):
+    sensor_IFR = [0,0,0]
+    for i in range (3):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
     sensor_MG = pin_sensor_MG.value()
     sensor_MG_2 = pin_sensor_MG_2.value()
