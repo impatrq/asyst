@@ -3,11 +3,12 @@ from django.utils.html import escapejs
 from main.models import Stock,Peticion, Activo
 from carrito.models import Estacion
 from django.http import JsonResponse
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse, JsonResponse
 from django.views import View
 from .forms import UserRegisterForm
 from django.core import serializers
 import json
+from django.contrib.auth import get_user_model
 # Create your views here.
 def Pedir(request):
     stockDb = Stock.objects.all()
@@ -71,15 +72,12 @@ def Devol(request):
         # print(f'{estado}:{activo.carrito.matricula}')
 
         if request.method == 'POST':
-            pedido2.mensaje = request.body.decode('utf-8')
+            pedido2.mensaje = request.POST.get('msg')
             print(request.body.decode('utf-8'))
             pedido2.save()
         # print(pedido)
         return render(request,'User-Pedido-Dev(Dev).html',context={'pedido':pedido2,'estado':estado})
     else: return redirect('login')
-
-
-
 
 def home(request):
     return redirect('login')
@@ -89,3 +87,17 @@ def home(request):
 def userData(request):
     peticiones = Peticion.objects.filter(autor = request.user)
     return render(request,'User-data.html',context={'peticiones':peticiones})
+
+def segEstado(request,id):
+    usuario = get_user_model().objects.get(id=id)
+    activo = Activo.objects.get(usuario=usuario)
+    estado = 0
+    if activo.pedido.estado == 2:
+        estado = 1
+        if activo.carrito.viajando == True:
+            estado = 2
+        if activo.carrito.idavuelta == True:
+            estado = 3
+    elif activo.pedido.estado == 3:
+        estado = 4
+    return HttpResponse(estado)

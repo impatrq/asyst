@@ -1,8 +1,12 @@
 const barra = document.querySelector('.steps')
 // var estado = 0;
-
+var estadoGuardado = 0;
 function actualizar(estado){
     const items = barra.querySelectorAll('.step-item')
+    // if (estado== estadoGuardado){
+    //     return
+    // }
+    // else{estadoGuardado=estado}
     const etiquetas = ['is-active','is-completed','is-success','is-danger']
     console.log(items)
     for(let i=0;i<items.length;i++){

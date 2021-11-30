@@ -36,29 +36,29 @@ const pintarCards = data => {
     })
     panel.appendChild(fragment)}
 
-boton.addEventListener('click',()=>{
-    // console.log(observacion)
-    const texto = observacion.value
-    console.log(texto)
-    data.push(texto)
-    console.log(data)    
+// boton.addEventListener('click',()=>{
+//     // console.log(observacion)
+//     const texto = observacion.value
+//     console.log(texto)
+//     data.push(texto)
+//     console.log(data)    
     
-    const csrftoken = getCookie('csrftoken');
-    console.log(csrftoken)
-    var http = new XMLHttpRequest();
-    var url = "/user/devolver/";
-    http.open("POST", url, true);
-    http.setRequestHeader('X-CSRFToken', csrftoken);
+//     const csrftoken = getCookie('csrftoken');
+//     console.log(csrftoken)
+//     var http = new XMLHttpRequest();
+//     var url = "/user/devolver/";
+//     http.open("POST", url, true);
+//     http.setRequestHeader('X-CSRFToken', csrftoken);
 
-    http.onreadystatechange = function() {
-        if(http.readyState == 4 && http.status == 200) { 
-        //aqui obtienes la respuesta de tu peticion
-        alert(texto);
-        }
-    }
-    http.send(JSON.stringify(texto));
-})
-
+//     http.onreadystatechange = function() {
+//         if(http.readyState == 4 && http.status == 200) { 
+//         //aqui obtienes la respuesta de tu peticion
+//         alert(texto);
+//         }
+//     }
+//     http.send(JSON.stringify(texto));
+// })
+boton.addEventListener('click',()=>{document.getElementById('msgform').submit()})
 
 function getCookie(name) {
     let cookieValue = null;
