@@ -1,7 +1,9 @@
-import machine, time
+import time
 from machine import Pin
-import requests
-import json
+import machine
+import network
+import urequests
+import ujson
 
 """
 1-gira mucho a la izquierda
@@ -13,68 +15,62 @@ import json
 9-gira 90° a la derecha
 8-PERDIDO
 """
-class URL:
-    def __init__(self):
-        self.get ='http://127.0.0.1:8000/prueba_read.json'#Cambiar por la url y el nombre del archivo a buscar
-        self.send = 'http://127.0.0.1:8000'
-        self.carrito_json = 'prueba_read.json'
 
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_sensor_MG_2):#todo:usado
-    boton_frenado = pin_boton_frenado.value()
-    sensor_IFR = [0,0,0,0,0]
-    for i in range (5):
+class URLs:
+    '''clase cuyos metodos permiten comunicarse con el servidor'''
+    def __init__(self,ipGet,ipPost,matricula):
+        self.get  = ipGet#Cambiar por la url y el nombre del archivo a buscar
+        self.post = ipPost
+        self.matricula = matricula
+    
+    def get_from_server(self):
+        '''Obtiene un nuevo destino del servidor'''
+        #matricula, rumbo, ocupado, viajando, idavuelta, perdido
+        resp = urequests.get(self.get).content
+        resp=resp.decode("utf-8")
+        #print(resp)
+        server_dict = ujson.loads(resp)
+        destino = server_dict['rumbo'].split(",")
+        for i in range(len(destino)):
+            destino[i] = int(destino[i])
+        return destino
+    
+    def send_to_server(self,data:dict):
+        '''Envía la información ingresada al servidor'''
+        #nombres = ['ocupado', 'viajando', 'idavuelta','perdido','pos_actual','reset']
+        for i in data:
+            key = i
+        data = str(self.matricula) + '-' + str(key) + '-' + str(data[key])
+        resp = urequests.post(self.post, data=data)
+        resp.close()
+
+def actualizar_valores(pin_sensor_IFR=0, pin_sensor_MG=0,pin_sensor_MG_2=0,pin_confirmacion=0):#todo:usado
+    '''Actualiza los valores de los sensores IFR, boton de confirmación y sensores magnéticos'''
+    sensor_IFR = [0,0,0]
+    for i in range (3):
         sensor_IFR[i] = pin_sensor_IFR[i].value()
-    alarma_balanza = pin_alarma_balanza.value()
     sensor_MG = pin_sensor_MG.value()
     sensor_MG_2 = pin_sensor_MG_2.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,sensor_MG_2;
+    return sensor_IFR, sensor_MG, sensor_MG_2
 
 def corregir_rumbo(aux):#todo: usado  #ingresa una lista con los valores 1/0 de los sensores Infrarrojos.
-    if   aux==[0,0,0,0,1]: return 5; #gira mucho a la derecha
-    elif aux==[0,0,0,1,1]: return 5; #gira mucho a la derecha
-    elif aux==[0,1,1,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,0,1,1,1]: return 4; #gira un poco a la derecha
-    elif aux==[0,0,1,1,0]: return 4; #gira un poco a la derecha
-    elif aux==[0,1,1,1,0]: return 3; #Avanza en línea recta
-    elif aux==[1,1,1,0,0]: return 2; #gira un poco a la izquierda
-    elif aux==[0,1,1,0,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,1,1,1,0]: return 2; #gira un poco a la izquierda
-    elif aux==[1,1,0,0,0]: return 1; #gira mucho a la izquierda
-    elif aux==[1,0,0,0,0]: return 1; #gira mucho a la izquierda
+    '''Devuelve una dirección en base a los sensores IFR'''
+    if   aux==[0,0,1]: return 5; #gira mucho a la derecha
+    #elif aux==[0,0,1]: return 4; #gira un poco a la derecha
+    elif aux==[0,1,1]: return 4; #gira un poco a la derecha
+    elif aux==[0,1,0]: return 3; #linea recta
+    elif aux==[1,1,0]: return 2; #gira un poco a la izquierda
+    #elif aux==[1,1,0]: return 2; #gira un poco a la izquierda
+    elif aux==[1,0,0]: return 1; #gira un poco a la izquierda
     else: return 8; #Perdido D:
 
-def crear_posicion(carrito_dict):#*Función auxiliar opcional
-    carrito_dict['posicion_actual'] = []
-    destinoPanol = []
-    for i in range (len(server_dict['destino'])): 
-        server_dict['destino'][i] = int(server_dict['destino'][i])
-        destinoPanol.append(0) 
-        carrito_dict['posicion_actual'].append(-1)
-    return destinoPanol, carrito_dict['posicion_actual'];#Esto se puede modificar
 
-def frenado_emergencia(boton_frenado, sensor_US):#todo:usado
+def frenado(sensor_US):
     distancia = sensor_US.distance_cm() #Recordar crear el objeto de sensor_US
-    if distancia>=100 and boton_frenado==0:
-        return 0;
-    else: 
-        return 1;
+    if distancia>=100: return 0
+    else: return 1
 
-def get_from_server(server_dict):
-    '''Obtiene un nuevo server_dict['destino'] y entrega/devolución del servidor'''
-    resp = requests.get(URL.get)
-    server_dict_aux = json.loads(resp.content)
-    server_dict['destino'] = server_dict_aux[0]['destino']
-    server_dict['entrega'] = server_dict_aux[0]['entrega']
-    return server_dict
 
-def send_to_server(carrito_dict):
-    '''Envía la posición actual del carrito y si está perdido al servidor'''
-    with open(URL.carrito_json,'w') as file: #Pregunto si está perdido
-        json.dump(carrito_dict, file)
-    
-    with open(URL.carrito_json,'r') as file:
-        new_dict = json.load(file)
-    requests.post('http://127.0.0.1:8000', json=new_dict)
 
 class HCSR04:
     """
@@ -146,74 +142,87 @@ class HCSR04:
         # 0.034320 cm/us that is 1cm each 29.1us
         cms = (pulse_time / 2) / 29.1
         return cms
-
-def reconocimiento_sector(server_dict, countIman, destinoPanol,carrito_dict):#todo:usado
-
-    if server_dict['destino'] == destinoPanol:
+    
+def reconocimiento_sector(destino, countIman, destinoPanol,posicion_actual, URL):#todo:usado
+    ''' Función que devuelve la posicion actual del vehiculo en base a la deteccion de imanes. Tambien cambia el rumbo del vehiculo de ser necesario'''
+    if destino == destinoPanol:
         countIman -= 1
-        carrito_dict['posicion_actual'][0] = countIman
-        if (countIman > server_dict['destino'][0]) and (carrito_dict['posicion_actual'] != server_dict['destino']):
-            if      carrito_dict['posicion_actual'][countIman] == 7: auxDireccion = 9
-            elif    carrito_dict['posicion_actual'][countIman] == 9: auxDireccion = 7
+        posicion_actual[0] = countIman
+         
+        if (countIman > destino[0]) and (posicion_actual != destino):
+            if      posicion_actual[countIman] == 7: auxDireccion = 9
+            elif    posicion_actual[countIman] == 9: auxDireccion = 7
             else:   auxDireccion = 3
-            carrito_dict['posicion_actual'][countIman] = 0
-            return carrito_dict, auxDireccion, countIman, server_dict,1
-        elif carrito_dict['posicion_actual'] == server_dict['destino']: 
-            #print("Llegamos al Pañol")
-            server_dict['destino'] = None #Reseteo La variable de destino para esperar uno nuevo
-            carrito_dict_final = [carrito_dict]
-            requests.post(URL.send, json=carrito_dict_final)
-            return carrito_dict, 0, countIman, server_dict,0
+            posicion_actual[countIman] = 0
+            if auxDireccion==9 or auxDireccion==7: delay = True
+            else: delay=False
+            return destino, auxDireccion, countIman,posicion_actual, delay,1
+        elif posicion_actual == destino: 
+            #print("Llegamos al Pañol")#!----------------
+            destino = None #Reseteo La variable de destino para esperar uno nuevo
+            URL.send_to_server({'reset':True})
+            return destino, 6, countIman, posicion_actual,False,0
 
     else:
         countIman += 1
-        carrito_dict['posicion_actual'][0] = countIman
-        if (countIman < server_dict['destino'][0]) and (carrito_dict['posicion_actual'] != server_dict['destino']):  
-            carrito_dict['posicion_actual'][countIman] = server_dict['destino'][countIman]
-            return carrito_dict, server_dict['destino'][countIman], countIman, server_dict,1
+        posicion_actual[0] = countIman
+        if (countIman < destino[0]) and (posicion_actual != destino):  
+            posicion_actual[countIman] = destino[countIman]
+            auxDireccion = int(posicion_actual[countIman])
+            if auxDireccion==9 or auxDireccion==7: delay = True
+            else: delay=False
+            return destino, auxDireccion, countIman, posicion_actual,delay,1
         else: 
-            #print("Llegamos a Destino")
-            server_dict['destino'] = destinoPanol
-            #carrito_dict['posicion_actual']= carrito_dict['posicion_actual']
-            carrito_dict_final = [carrito_dict]
-            requests.post(URL.send, json=carrito_dict_final)
-            comenzar = 0
-            return carrito_dict, 0, countIman, server_dict['destino'],comenzar
+            #print("Llegamos a Destino")#!----------------
+            destino = destinoPanol
+            URL.send_to_server({'viajando':False})
+            URL.send_to_server({'idavuelta':True})
+            return destino, 6, countIman, posicion_actual,False,1
             
-def regular_direccion(direccion, velocidades_dict): #todo:usado            #Recordar importar las los valores de "p" como un diccionario
-    if      direccion == 1: return  1,velocidades_dict['p30'], 1,velocidades_dict['p90'] #Acá se usaría el comando ".duty()" para regular la velocidad
-    elif    direccion == 2: return  1,velocidades_dict['p60'], 1,velocidades_dict['p90']
-    elif    direccion == 3: return  1,velocidades_dict['p100'],1,velocidades_dict['p100']
-    elif    direccion == 4: return  1,velocidades_dict['p90'], 1,velocidades_dict['p60']
-    elif    direccion == 5: return  1,velocidades_dict['p90'], 1,velocidades_dict['p30']
-    elif    direccion == 7: return  0,velocidades_dict['p40'], 1,velocidades_dict['p80']
-    elif    direccion == 9: return  1,velocidades_dict['p60'], 0,velocidades_dict['p40']
-    #elif    direccion == 8: return  0,velocidades_dict['p75'], 1,velocidades_dict['p75']
-    else:   return 1,0,1,0; #l_sentido, l_velocidad, r_sentido, r_velocidad
+def regular_direccion(direccion): #todo:usado            
+    '''Devuelve una configuración para las ruedas en base a la dirección ingresada'''    
+    p1 = 150
+    p2 = 200
+    p3 = 250
+    p4 = 300
+    p5 = 300
+    if      direccion == 1: return  1,0,p1-70, 1,0,p3 
+    elif    direccion == 2: return  1,0,p2-80, 1,0,p3
+    elif    direccion == 3: return  1,0,p4-100, 1,0,p4
+    elif    direccion == 4: return  1,0,p3-80, 1,0,p2
+    elif    direccion == 5: return  1,0,p3-70, 1,0,p1
+    elif    direccion == 6: return  0,1,p5-100, 1,0,p5
+    elif    direccion == 7: return  0,1,p5-100, 1,0,p5
+    elif    direccion == 9: return  1,0,p5-100, 0,1,p5
+    else:   return 0,0,0,0,0,0; #l_forw, l_back, l_velocidad, r_forw, r_back, r_velocidad
 
-def regular_sentido_motores(pin_M_L_sentido,pin_M_R_sentido,L_sentido,R_sentido):#todo:usado
-    if L_sentido == 1: pin_M_L_sentido.on()
-    else: pin_M_L_sentido.off()
-    if R_sentido == 1: pin_M_R_sentido.on()
-    else: pin_M_R_sentido.off()
+def regular_sentido_motores(pin_M_L_forw,pin_M_L_back,L_forw,L_back, pin_M_R_forw,pin_M_R_back,R_forw,R_back):
+    '''Ejecuta la configuración del sentido de las ruedas ingresada'''
+    if L_forw==1 and L_back==0: #AVANZA
+        pin_M_L_forw.on()
+        pin_M_L_back.off()
+    elif L_forw==0 and L_back==1: #RETROCEDE
+        pin_M_L_forw.off()
+        pin_M_L_back.on()
+    else: #STOP
+        pin_M_L_forw.off()
+        pin_M_L_back.off()
 
-def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion, M_L_velocidad,M_R_velocidad ):#todo:usado
-    if interrupcion == 0:
+    if R_forw==1 and R_back==0: #AVANZA
+        pin_M_R_forw.on()
+        pin_M_R_back.off()
+    elif R_forw==0 and R_back==1: #RETROCEDE
+        pin_M_R_forw.off()
+        pin_M_R_back.on()
+    else: #STOP
+        pin_M_R_forw.off()
+        pin_M_R_back.off()
+
+def regular_velocidad_motores(pin_M_L_pwm,pin_M_R_pwm, interrupcion , M_L_velocidad ,M_R_velocidad ):
+    '''Ejecuta la velocidad para los PWM ingresadas, si es que no hay una interrupción ("interrupcion")'''
+    if not interrupcion:
         pin_M_L_pwm.duty(M_L_velocidad)
         pin_M_R_pwm.duty(M_R_velocidad)
     else:
         pin_M_L_pwm.duty(0)
         pin_M_R_pwm.duty(0)
-
-def actualizar_valores(pin_boton_frenado,pin_sensor_IFR, pin_alarma_balanza, pin_sensor_MG,pin_boton_fisico):#todo:usado
-    boton_frenado = pin_boton_frenado.value()
-    sensor_IFR = [0,0,0,0,0]
-    for i in range (5):
-        sensor_IFR[i] = pin_sensor_IFR[i].value()
-    alarma_balanza = pin_alarma_balanza.value()
-    sensor_MG = pin_sensor_MG.value()
-    boton_fisico = pin_boton_fisico.value()
-    return boton_frenado,sensor_IFR,alarma_balanza,sensor_MG,boton_fisico;
-
-
-
