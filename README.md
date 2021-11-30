@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/impatrq/asyst">
-    <img src= "media/ASYST-blanco.png" alt="Logo" width="2500" height="550">
+    <img src= "media/ASYST-blanco.png" alt="Logo" width="800">
   </a>
 
   <h3 align="center">A.SYS.T</h3>
@@ -92,7 +92,7 @@ This is an example of how to list things you need to use the software and how to
 ## Manual de Uso
 
 Manual de uso para el sistema que ofrece A.SYS.T
-**![Documentation](https://github.com/impatrq/asyst/Maual de usuario)**
+**[Documentation](https://github.com/impatrq/asyst/Maual-de-usuario)**
 
 
 <!-- LICENSE -->
