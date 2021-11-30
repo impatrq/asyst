@@ -3,7 +3,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/impatrq/asyst">
-    <img src= "media/Logo-Short.png" alt="Logo" width="500" height="245">
+    <img src= "media/ASYST-blanco.png" alt="Logo" width="2500" height="550">
   </a>
 
   <h3 align="center">A.SYS.T</h3>
@@ -91,19 +91,21 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Manual de Uso
 
-Acá vá la documentación...
-[Documentation](https://example.com)
+Manual de uso para el sistema que ofrece A.SYS.T
+**![Documentation](https://github.com/impatrq/asyst/Maual de usuario)**
 
 
 <!-- LICENSE -->
 ## Licencia
 
-Acá va la licencia...
+Distribuido bajo la licencia MIT. Consulte `LICENSE` para obtener más información.
+
 <!-- Distribuido bajo la licencia MIT. Consulte `LICENSE` para obtener más información.
 
 <!-- CONTACTO -->
 ## Contacto
 
-Equipo *A.SYS.T* - [@?]() -
+E-Mail equipo *A.SYS.T* - [asyst.official@gmail.com]() -
+Instagram equipo *A.SYS.T* - [a.sys.t]() -
 
 Link del Proyecto: [github.com/impatrq/ayst](https://github.com/impatrq/asyst)
