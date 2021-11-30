@@ -146,4 +146,3 @@ modalRechazo.querySelector('.button.is-danger').addEventListener('click',functio
     else{prepararPOST(modalRechazo.dataset.id,'rechazo',modalRechazo.querySelector('.textarea').value)}
     // console.log(modalRechazo.querySelector('.textarea').value)
 })
-

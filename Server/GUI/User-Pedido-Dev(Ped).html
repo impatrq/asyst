@@ -26,6 +26,7 @@
         <article class="panel" >
           <p class="panel-heading" id="titlePanel1">Busqueda</p>
           <input type="hidden" id="stock-db" value="{{stock}}">
+          <input type="hidden" id="estaciones-db" value="{{estaciones}}">
           <p class="panel-tabs">
             <a class="is-active">Todos</a>
             <a>Herramientas</a>
@@ -51,11 +52,46 @@
 </div>
   <div class="columns">
     <div class="column is-offset-one-quarter is-half">
-      <button class="button is-success is-large is-fullwidth" id="Aceptbutton">Hacer Pedido</button>
+      <button class="button is-success is-large is-fullwidth" id="sig-button">Hacer Pedido</button>
     </div>
   </div>
     
 
+  <!-- Aceptbutton -->
+  <div class="modal" id="modal-envio">
+    <div class="modal-background"></div>
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          Completar pedido
+        </p>
+        <a  id="boton-cerrar-1"class="card-header-icon" aria-label="more options">
+          <span class="icon"><i class="fas fa-2x fa-times-circle"></i></span>
+        </a>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          Seleccione el area donde quiere que se entregue su pedido
+          <br><br>
+            <div class="field">
+              <label class="label">Area:</label>
+              <div class="control">
+                <div class="select">
+                  <select>
+
+                  </select>
+                </div>
+              </div>
+            </div>
+      </div>
+      <p class="has-text-danger"><b id='error'></b></p>
+  
+      </div>
+      <footer class="card-footer">
+        <a href="#" id = "Aceptbutton"class="card-footer-item">Guardar</a>
+      </footer>
+    </div>
+  </div>
    <!-- template de item de lista de busqueda ------------------------------------------------------- -->
    <template id="bloque-lista-buscar">
     <a class="panel-block">
@@ -98,4 +134,5 @@
 {% endblock body %}
 {% block js %}
 <script src="{% static 'scripts/pedido.js' %}"></script>
+<script src="{% static 'scripts/pedido-enviar.js' %}"></script>
 {% endblock js %}
