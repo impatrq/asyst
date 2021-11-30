@@ -92,7 +92,7 @@ This is an example of how to list things you need to use the software and how to
 ## Manual de Uso
 
 Manual de uso para el sistema que ofrece A.SYS.T
-**[Documentation](https://github.com/impatrq/asyst/Maual-de-usuario)**
+**[Documentation](https://github.com/impatrq/asyst/tree/master/Manual-de-usuario)**
 
 
 <!-- LICENSE -->
