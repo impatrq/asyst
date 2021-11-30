@@ -105,7 +105,7 @@ Distribuido bajo la licencia MIT. Consulte `LICENSE` para obtener más informaci
 <!-- CONTACTO -->
 ## Contacto
 
-E-Mail equipo *A.SYS.T* - [asyst.official@gmail.com]() -
-Instagram equipo *A.SYS.T* - [a.sys.t]() -
+E-Mail equipo *A.SYS.T* - asyst.official@gmail.com -
+Instagram equipo *A.SYS.T* - [a.sys.t](https://www.instagram.com/a.sys.t/)
 
 Link del Proyecto: [github.com/impatrq/ayst](https://github.com/impatrq/asyst)
